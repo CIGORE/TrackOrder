@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
-<title>BrewTrack — Pencatatan Order</title>
+<title>TrackOrders — Pencatatan Order</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
@@ -44,29 +44,32 @@ button,input,select,textarea{font-family:inherit;color:inherit}
 input[type=number]::-webkit-inner-spin-button{opacity:.5}
 
 /* ══ HEADER ══════════════════════════════════════════════════════════ */
-.hdr{position:sticky;top:0;z-index:200;height:56px;
+.hdr{position:sticky;top:0;z-index:200;
   background:var(--hbg);backdrop-filter:blur(24px) saturate(180%);
   -webkit-backdrop-filter:blur(24px) saturate(180%);
   border-bottom:1px solid var(--bd3);
   display:flex;align-items:center;justify-content:space-between;padding:0 15px;
-  transition:background .3s}
-.logo{display:flex;align-items:center;gap:9px}
+  transition:background .3s;min-height:56px;flex-wrap:nowrap}
+.logo{display:flex;align-items:center;gap:9px;min-width:0}
 .logo-icon{width:33px;height:33px;border-radius:9px;flex-shrink:0;
   background:linear-gradient(135deg,var(--gl),var(--gdk));
   display:flex;align-items:center;justify-content:center;box-shadow:var(--shg)}
 .logo-icon svg{width:17px;height:17px;color:#fff;flex-shrink:0}
-.logo-txt{line-height:1}
-.logo-name{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:800;
+.logo-txt{line-height:1;min-width:0}
+.logo-name{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:800;
   color:var(--gl);letter-spacing:.3px}
-.logo-sub{font-size:.58rem;color:var(--t3);letter-spacing:.3px}
-.hdr-right{display:flex;align-items:center;gap:7px}
+.logo-biz{font-size:.62rem;color:var(--gd);font-weight:600;overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap;max-width:160px;display:block;margin-top:1px}
+.logo-sub{font-size:.57rem;color:var(--t3);letter-spacing:.3px;margin-top:1px}
+.hdr-right{display:flex;align-items:center;gap:6px;flex-shrink:0}
 .hdr-date{display:flex;align-items:center;gap:5px;
   background:var(--s2);border:1px solid var(--bd2);
-  border-radius:7px;padding:5px 9px;font-size:.67rem;color:var(--t2)}
+  border-radius:7px;padding:5px 9px;font-size:.65rem;color:var(--t2)}
 .hdr-date svg{width:11px;height:11px;flex-shrink:0}
+@media(max-width:400px){.hdr-date{display:none}}
 .ico-btn{width:33px;height:33px;border-radius:8px;background:var(--s2);
   border:1px solid var(--bd2);color:var(--t2);cursor:pointer;
-  display:flex;align-items:center;justify-content:center;transition:all .2s}
+  display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0}
 .ico-btn:hover{border-color:var(--gd);color:var(--gl)}
 .ico-btn svg{width:15px;height:15px}
 
@@ -107,7 +110,7 @@ input[type=number]::-webkit-inner-spin-button{opacity:.5}
 /* ══ CHART ══════════════════════════════════════════════════════════ */
 .chart-box{background:var(--s1);border:1px solid var(--bd2);
   border-radius:13px;padding:16px;margin-bottom:14px}
-.chart-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.chart-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px}
 .chart-ttl{font-size:.8rem;font-weight:600;color:var(--t2)}
 .chart-area{height:155px;position:relative}
 @media(min-width:480px){.chart-area{height:175px}}
@@ -123,7 +126,7 @@ input[type=number]::-webkit-inner-spin-button{opacity:.5}
   display:flex;align-items:center;justify-content:center;font-size:1.1rem}
 .r-info{flex:1;min-width:0}
 .r-name{font-weight:700;font-size:.84rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.r-meta{font-size:.66rem;color:var(--t3);margin-top:2px}
+.r-meta{font-size:.66rem;color:var(--t3);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .r-total{font-weight:800;color:var(--gl);font-size:.88rem;white-space:nowrap}
 
 /* ══ CARD ══════════════════════════════════════════════════════════ */
@@ -138,8 +141,10 @@ input[type=number]::-webkit-inner-spin-button{opacity:.5}
 .fg{display:grid;gap:10px;margin-bottom:11px}
 .fg2{grid-template-columns:1fr 1fr}
 .fg3{grid-template-columns:1fr 1fr 1fr}
+.fg4{grid-template-columns:1fr 1fr 1fr 1fr}
 .fg1{grid-template-columns:1fr}
-@media(max-width:460px){.fg2,.fg3{grid-template-columns:1fr}}
+@media(max-width:520px){.fg3,.fg4{grid-template-columns:1fr 1fr}}
+@media(max-width:400px){.fg2,.fg3,.fg4{grid-template-columns:1fr}}
 .fgrp{display:flex;flex-direction:column;gap:4px}
 .flbl{font-size:.63rem;text-transform:uppercase;letter-spacing:.7px;
   color:var(--t3);font-weight:700}
@@ -149,38 +154,23 @@ input[type=number]::-webkit-inner-spin-button{opacity:.5}
   -webkit-appearance:none;appearance:none}
 .fi:focus{border-color:var(--gd);box-shadow:0 0 0 3px rgba(201,151,58,.14)}
 .fi::placeholder{color:var(--t4)}
+textarea.fi{resize:vertical;min-height:70px}
 select.fi{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23796d60' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:30px}
 select.fi option{background:var(--s2);color:var(--tx)}
 input[type="date"].fi::-webkit-calendar-picker-indicator{filter:invert(60%) sepia(30%) saturate(400%) hue-rotate(10deg);cursor:pointer;opacity:.7}
 [data-theme="light"] input[type="date"].fi::-webkit-calendar-picker-indicator{filter:none;opacity:.6}
 
-/* ══ ITEM ROWS (Order Detail) ════════════════════════════════════════ */
-/* 
-  LAYOUT: [Produk(flex)] [Qty(72px)] [Harga(100px)] [Subtotal(96px)] [Del(34px)]
-  Responsif: tablet → sembunyikan Subtotal | mobile → sembunyikan Harga juga
-*/
-.item-tbl{width:100%;margin-bottom:10px}
+/* ══ ITEM ROWS (Order Detail) ══════════════════════════════════════ */
+.item-tbl-wrap{width:100%;margin-bottom:10px;overflow-x:auto}
 .item-head{display:grid;gap:7px;align-items:center;margin-bottom:7px;
-  padding-bottom:7px;border-bottom:1px solid var(--bd2)}
-.item-row{display:grid;gap:7px;align-items:center;margin-bottom:7px;
-  animation:fadeUp .18s ease}
-
-/* Desktop 5-col */
-.item-head,.item-row{grid-template-columns:minmax(100px,1fr) 72px 100px 96px 34px}
+  padding-bottom:7px;border-bottom:1px solid var(--bd2);min-width:460px}
+.item-row{display:grid;gap:7px;align-items:center;margin-bottom:8px;
+  animation:fadeUp .18s ease;min-width:460px}
+/* 5-col layout: [Product] [Qty] [Price] [Subtotal] [Del] */
+.item-head,.item-row{
+  grid-template-columns: minmax(120px,1fr) 74px 104px 100px 34px
+}
 .item-head span{font-size:.62rem;text-transform:uppercase;letter-spacing:.7px;color:var(--t3);font-weight:700}
-
-/* Tablet: hide subtotal col */
-@media(max-width:580px){
-  .item-head,.item-row{grid-template-columns:minmax(90px,1fr) 64px 90px 34px}
-  .col-sub{display:none}
-}
-/* Mobile: hide price col too, show inline */
-@media(max-width:360px){
-  .item-head,.item-row{grid-template-columns:minmax(80px,1fr) 58px 34px}
-  .col-qty-h{display:none}
-  .col-price{display:none}
-}
-
 .sub-display{background:var(--s3);border:1px solid var(--bd2);
   border-radius:7px;padding:8px 10px;
   font-size:.8rem;color:var(--gl);font-weight:700;text-align:right;white-space:nowrap}
@@ -197,7 +187,6 @@ input[type="date"].fi::-webkit-calendar-picker-indicator{filter:invert(60%) sepi
   justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:13px}
 .sum-info .lbl{font-size:.62rem;color:var(--t3);text-transform:uppercase;letter-spacing:.7px}
 .sum-info .val{font-size:1.4rem;font-weight:800;color:var(--gl)}
-.sum-btns{display:flex;gap:8px;flex-wrap:wrap}
 
 /* ══ BUTTONS ══════════════════════════════════════════════════════ */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;
@@ -213,18 +202,19 @@ input[type="date"].fi::-webkit-calendar-picker-indicator{filter:invert(60%) sepi
 .btn-ghost:hover{background:var(--s3)}
 .btn-danger{background:rgba(224,82,82,.1);border:1px solid rgba(224,82,82,.22);color:var(--red)}
 .btn-danger:hover{background:rgba(224,82,82,.2)}
+.btn-info{background:rgba(91,156,246,.1);border:1px solid rgba(91,156,246,.22);color:var(--blu)}
+.btn-info:hover{background:rgba(91,156,246,.2)}
 .btn-sm{padding:6px 12px;font-size:.75rem;border-radius:7px}
 .btn-sm svg{width:12px;height:12px}
 .btn-xs{padding:5px 10px;font-size:.7rem;border-radius:6px}
 .btn-xs svg{width:11px;height:11px}
 .btn-full{width:100%}
 .brow{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.sum-btns{display:flex;gap:8px;flex-wrap:wrap}
 
 /* ══ FILTER BAR ══════════════════════════════════════════════════ */
-.filter-bar{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
-.filter-bar .fi{flex:1;min-width:120px}
-.filter-bar .fi.date-fi{max-width:148px}
-@media(max-width:400px){.filter-bar .fi.date-fi{max-width:100%}}
+.filter-bar{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center}
+.filter-bar .fi{flex:1;min-width:110px}
 
 /* ══ TABLE ══════════════════════════════════════════════════════ */
 .tbl-wrap{background:var(--s1);border:1px solid var(--bd2);
@@ -234,7 +224,7 @@ input[type="date"].fi::-webkit-calendar-picker-indicator{filter:invert(60%) sepi
 .tbl-ttl{font-size:.71rem;font-weight:700;color:var(--t2);
   text-transform:uppercase;letter-spacing:.7px}
 .tbl-scr{overflow-x:auto;-webkit-overflow-scrolling:touch}
-table.dtbl{width:100%;border-collapse:collapse;min-width:440px}
+table.dtbl{width:100%;border-collapse:collapse;min-width:420px}
 .dtbl th{padding:9px 12px;text-align:left;font-size:.61rem;
   text-transform:uppercase;letter-spacing:.7px;color:var(--t3);font-weight:700;
   border-bottom:1px solid var(--bd2);white-space:nowrap;background:var(--s1)}
@@ -246,15 +236,15 @@ table.dtbl{width:100%;border-collapse:collapse;min-width:440px}
 .dtbl td.c-tx{color:var(--tx);font-weight:600}
 .dtbl td.c-dim{color:var(--t3);font-size:.7rem;line-height:1.5}
 
-/* Detail expand */
-.expand-btn{background:none;border:none;cursor:pointer;
-  color:var(--t3);padding:2px 6px;border-radius:5px;transition:all .2s;font-size:.72rem}
-.expand-btn:hover{background:var(--s3);color:var(--tx)}
+/* detail expand */
 .detail-row td{background:var(--s2)!important;padding:8px 12px 12px!important}
 .detail-items{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
 .detail-chip{background:var(--s3);border:1px solid var(--bd);
   border-radius:6px;padding:4px 9px;font-size:.72rem;color:var(--t2);white-space:nowrap}
 .detail-chip span{color:var(--gl);font-weight:700}
+.expand-btn{background:none;border:none;cursor:pointer;
+  color:var(--t3);padding:2px 6px;border-radius:5px;transition:all .2s;font-size:.72rem}
+.expand-btn:hover{background:var(--s3);color:var(--tx)}
 
 /* ══ PROD GRID ══════════════════════════════════════════════════ */
 .prod-grid{display:grid;gap:9px;margin-bottom:13px;
@@ -275,16 +265,20 @@ table.dtbl{width:100%;border-collapse:collapse;min-width:440px}
 .b-gold{background:rgba(201,151,58,.13);color:var(--gl);border:1px solid rgba(201,151,58,.26)}
 .b-grn{background:rgba(77,191,122,.11);color:var(--grn);border:1px solid rgba(77,191,122,.22)}
 .b-red{background:rgba(224,82,82,.11);color:var(--red);border:1px solid rgba(224,82,82,.2)}
+.b-blu{background:rgba(91,156,246,.11);color:var(--blu);border:1px solid rgba(91,156,246,.22)}
 
 /* ══ EMPTY ══════════════════════════════════════════════════════ */
 .empty{text-align:center;padding:32px 16px;color:var(--t3)}
 .empty svg{width:36px;height:36px;opacity:.25;margin:0 auto 9px;display:block}
 .empty p{font-size:.8rem;line-height:1.55}
 
-/* ══ SECTION LABEL ══════════════════════════════════════════════ */
+/* ══ SEC LABEL ══════════════════════════════════════════════════ */
 .sec-lbl{display:flex;align-items:center;gap:7px;
   font-size:.88rem;font-weight:700;color:var(--tx);margin-bottom:10px}
 .sec-lbl svg{width:14px;height:14px;color:var(--gd)}
+
+/* ══ DIVIDER ══════════════════════════════════════════════════════ */
+.divider{height:1px;background:var(--bd2);margin:14px 0}
 
 /* ══ TOAST ══════════════════════════════════════════════════════ */
 #toast-wrap{position:fixed;top:62px;right:13px;z-index:9999;
@@ -294,7 +288,7 @@ table.dtbl{width:100%;border-collapse:collapse;min-width:440px}
   border-left:3px solid var(--gd);border-radius:9px;
   padding:10px 14px;font-size:.78rem;color:var(--tx);
   box-shadow:var(--sh);display:flex;align-items:center;gap:8px;
-  animation:toastIn .28s cubic-bezier(.34,1.56,.64,1);pointer-events:all;max-width:290px}
+  animation:toastIn .28s cubic-bezier(.34,1.56,.64,1);pointer-events:all;max-width:300px}
 .toast svg{width:14px;height:14px;flex-shrink:0}
 .toast.t-s{border-left-color:var(--grn)}
 .toast.t-e{border-left-color:var(--red)}
@@ -308,11 +302,55 @@ table.dtbl{width:100%;border-collapse:collapse;min-width:440px}
   align-items:center;justify-content:center;padding:14px}
 .modal-bg.open{display:flex}
 .modal-box{background:var(--s1);border:1px solid var(--bd);border-radius:14px;
-  padding:20px;width:100%;max-width:400px;box-shadow:var(--sh);
-  animation:mboxIn .22s ease}
+  padding:20px;width:100%;max-width:440px;box-shadow:var(--sh);
+  animation:mboxIn .22s ease;max-height:90vh;overflow-y:auto}
 @keyframes mboxIn{from{transform:scale(.91);opacity:0}to{transform:scale(1);opacity:1}}
 .modal-ttl{font-size:.95rem;font-weight:800;color:var(--gl);margin-bottom:8px}
 .modal-msg{font-size:.8rem;color:var(--t2);margin-bottom:16px;line-height:1.55}
+
+/* ══ BUSINESS SELECTOR ══════════════════════════════════════════ */
+.biz-pill{display:inline-flex;align-items:center;gap:5px;
+  background:var(--s3);border:1px solid var(--bd);border-radius:8px;
+  padding:4px 9px;font-size:.68rem;color:var(--t2);cursor:pointer;transition:all .2s}
+.biz-pill:hover{border-color:var(--gd);color:var(--gl)}
+
+/* ══ SETTING SECTION ════════════════════════════════════════════ */
+.set-section{background:var(--s1);border:1px solid var(--bd2);border-radius:13px;margin-bottom:13px;overflow:hidden}
+.set-header{padding:13px 16px;border-bottom:1px solid var(--bd2);
+  display:flex;align-items:center;gap:7px;
+  font-size:.72rem;font-weight:700;color:var(--t2);text-transform:uppercase;letter-spacing:.7px}
+.set-header svg{width:13px;height:13px;color:var(--gd)}
+.set-body{padding:16px}
+.set-row{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:10px 0;border-bottom:1px solid var(--bd2)}
+.set-row:last-child{border-bottom:none;padding-bottom:0}
+.set-row-info .sr-ttl{font-size:.82rem;font-weight:600;color:var(--tx)}
+.set-row-info .sr-sub{font-size:.68rem;color:var(--t3);margin-top:2px}
+.toggle{position:relative;width:40px;height:22px;flex-shrink:0;cursor:pointer}
+.toggle input{opacity:0;width:0;height:0;position:absolute}
+.toggle-track{position:absolute;inset:0;border-radius:11px;
+  background:var(--s4);transition:.3s;border:1px solid var(--bd)}
+.toggle input:checked+.toggle-track{background:var(--gd)}
+.toggle-thumb{position:absolute;top:3px;left:3px;width:16px;height:16px;
+  border-radius:50%;background:#fff;transition:.3s;box-shadow:0 1px 4px rgba(0,0,0,.3)}
+.toggle input:checked~.toggle-thumb{left:21px}
+
+/* ══ BIZ CARD ══════════════════════════════════════════════════ */
+.biz-card{background:var(--s2);border:1px solid var(--bd);border-radius:11px;
+  padding:13px;margin-bottom:9px;display:flex;align-items:flex-start;gap:10px;
+  cursor:pointer;transition:all .2s;position:relative}
+.biz-card:hover{border-color:var(--gd);background:var(--s3)}
+.biz-card.active-biz{border-color:var(--gl);background:rgba(201,151,58,.06)}
+.biz-card .biz-emoji{font-size:1.4rem;width:36px;height:36px;border-radius:9px;
+  background:var(--s3);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.biz-card .biz-info{flex:1;min-width:0}
+.biz-card .biz-nm{font-weight:700;font-size:.86rem;color:var(--tx)}
+.biz-card .biz-addr{font-size:.68rem;color:var(--t3);margin-top:2px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.biz-card .biz-acts{display:flex;gap:5px;margin-top:8px;flex-wrap:wrap}
+.active-badge{position:absolute;top:8px;right:8px;
+  background:var(--grn);color:#fff;font-size:.58rem;font-weight:700;
+  padding:2px 7px;border-radius:10px}
 
 /* ══ BOTTOM NAV ══════════════════════════════════════════════════ */
 .bot-nav{position:fixed;bottom:0;left:0;right:0;
@@ -335,7 +373,7 @@ table.dtbl{width:100%;border-collapse:collapse;min-width:440px}
 .nav-item.active .nav-dot{opacity:1;transform:scaleX(1)}
 .nav-item .nav-ic svg{width:20px;height:20px;color:var(--t3);transition:all .2s}
 .nav-item.active .nav-ic svg{color:var(--gl);filter:drop-shadow(0 0 5px rgba(201,151,58,.45))}
-.nav-item .nav-lbl{font-size:.57rem;font-weight:700;color:var(--t3);
+.nav-item .nav-lbl{font-size:.55rem;font-weight:700;color:var(--t3);
   transition:color .2s;letter-spacing:.3px}
 .nav-item.active .nav-lbl{color:var(--gl)}
 /* FAB center */
@@ -346,6 +384,20 @@ table.dtbl{width:100%;border-collapse:collapse;min-width:440px}
   border:3px solid var(--bg)}
 .nav-item.fab .nav-ic svg{color:#fff!important;filter:none!important;width:20px;height:20px}
 .nav-item.fab.active .nav-ic{filter:brightness(1.08)}
+
+/* ══ PROGRESS BAR ══════════════════════════════════════════════ */
+.prog-bar{height:5px;background:var(--s3);border-radius:3px;overflow:hidden;margin-top:4px}
+.prog-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--gl),var(--gd));transition:width .4s ease}
+
+/* ══ RESPONSIVE helpers ═════════════════════════════════════════ */
+@media(max-width:480px){
+  .wrap{padding:12px 10px 4px}
+  .card{padding:13px}
+  .pg-ttl{font-size:.95rem;margin-bottom:10px}
+  .sum-bar{flex-direction:column;align-items:stretch}
+  .sum-btns{justify-content:stretch}
+  .sum-btns .btn{flex:1}
+}
 </style>
 </head>
 <body>
@@ -355,14 +407,12 @@ table.dtbl{width:100%;border-collapse:collapse;min-width:440px}
   <div class="logo">
     <div class="logo-icon">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
-        <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
-        <line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/>
+        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
       </svg>
     </div>
     <div class="logo-txt">
-      <div class="logo-name">BrewTrack</div>
-      <div class="logo-sub">Pencatatan Order Usaha</div>
+      <div class="logo-name">TrackOrders</div>
+      <div class="logo-biz" id="hdr-biz-name"></div>
     </div>
   </div>
   <div class="hdr-right">
@@ -370,7 +420,7 @@ table.dtbl{width:100%;border-collapse:collapse;min-width:440px}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
       <span id="hdr-date">—</span>
     </div>
-    <button class="ico-btn" onclick="toggleTheme()" id="theme-btn" title="Toggle tema">
+    <button class="ico-btn" onclick="toggleTheme()" title="Toggle tema">
       <svg id="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
       <svg id="ico-moon" style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
     </button>
@@ -389,26 +439,26 @@ table.dtbl{width:100%;border-collapse:collapse;min-width:440px}
 
     <div class="stat-grid">
       <div class="stat-card">
-        <div class="sc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <div class="sc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
         <div class="sc-lbl">Hari Ini</div>
         <div class="sc-val" id="st-hari">Rp 0</div>
         <div class="sc-sub" id="st-hari-n">0 transaksi</div>
       </div>
       <div class="stat-card">
-        <div class="sc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <div class="sc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
         <div class="sc-lbl">Bulan Ini</div>
         <div class="sc-val" id="st-bulan">Rp 0</div>
         <div class="sc-sub" id="st-bulan-n">0 transaksi</div>
       </div>
       <div class="stat-card">
-        <div class="sc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></div>
+        <div class="sc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></div>
         <div class="sc-lbl">Total Order</div>
         <div class="sc-val plain" id="st-total">0</div>
         <div class="sc-sub">semua waktu</div>
       </div>
       <div class="stat-card">
-        <div class="sc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-        <div class="sc-lbl">Menu Terlaris</div>
+        <div class="sc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <div class="sc-lbl">Item Terlaris</div>
         <div class="sc-val plain sm" id="st-best">—</div>
         <div class="sc-sub" id="st-best-n">0 terjual</div>
       </div>
@@ -417,33 +467,33 @@ table.dtbl{width:100%;border-collapse:collapse;min-width:440px}
     <div class="chart-box">
       <div class="chart-hdr">
         <span class="chart-ttl">Pemasukan 7 Hari Terakhir</span>
-        <span class="badge b-gold">
-          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-          Weekly
-        </span>
+        <div style="display:flex;gap:7px;align-items:center">
+          <span class="badge b-gold">
+            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            Weekly
+          </span>
+        </div>
       </div>
       <div class="chart-area"><canvas id="weekChart"></canvas></div>
     </div>
 
     <div class="sec-lbl">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
       Order Terbaru
     </div>
-    <div class="recent-list" id="recent-list">
-      <div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><p>Belum ada order. Catat order pertama sekarang!</p></div>
-    </div>
+    <div class="recent-list" id="recent-list"></div>
   </div>
 
   <!-- ── ORDER ── -->
   <div class="page" id="pg-order">
     <div class="pg-ttl">
-      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
       Catat Order Baru
     </div>
 
     <div class="card">
       <div class="card-ttl">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         Informasi Order
       </div>
       <div class="fg fg2">
@@ -456,33 +506,89 @@ table.dtbl{width:100%;border-collapse:collapse;min-width:440px}
           <input type="date" class="fi" id="in-date"/>
         </div>
       </div>
+      <div class="fg fg2">
+        <div class="fgrp">
+          <label class="flbl">No. Telepon</label>
+          <input type="tel" class="fi" id="in-phone" placeholder="Opsional..."/>
+        </div>
+        <div class="fgrp">
+          <label class="flbl">Status Pembayaran</label>
+          <select class="fi" id="in-pay">
+            <option value="unpaid">Belum Lunas</option>
+            <option value="paid">Lunas</option>
+            <option value="dp">DP / Uang Muka</option>
+          </select>
+        </div>
+      </div>
       <div class="fg fg1" style="margin-bottom:0">
         <div class="fgrp">
           <label class="flbl">Catatan</label>
-          <input type="text" class="fi" id="in-note" placeholder="Misal: tanpa gula, extra shot, packing rapat..."/>
+          <input type="text" class="fi" id="in-note" placeholder="Misal: tanpa gula, extra shot, delivery ke JL. Merdeka No.5..."/>
         </div>
       </div>
     </div>
 
     <div class="card">
       <div class="card-ttl">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
         Detail Item Pesanan
       </div>
-      <!-- Header row -->
-      <div class="item-head" id="item-thead">
-        <span>Menu / Produk</span>
-        <span class="col-qty-h">Qty</span>
-        <span class="col-price">Harga/pcs</span>
-        <span class="col-sub">Subtotal</span>
-        <span></span>
+      <!-- Item rows dengan scroll horizontal untuk mobile -->
+      <div class="item-tbl-wrap">
+        <div class="item-head">
+          <span>Menu / Produk</span>
+          <span style="text-align:center">Qty</span>
+          <span>Harga/pcs</span>
+          <span style="text-align:right">Subtotal</span>
+          <span></span>
+        </div>
+        <div id="item-rows"></div>
       </div>
-      <!-- Item rows container -->
-      <div id="item-rows"></div>
       <button class="btn btn-ghost btn-sm" onclick="addRow()" style="margin-top:4px">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         Tambah Item
       </button>
+    </div>
+
+    <!-- Diskon -->
+    <div class="card">
+      <div class="card-ttl">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+        Diskon & Biaya Tambahan
+      </div>
+      <div class="fg fg3">
+        <div class="fgrp">
+          <label class="flbl">Diskon (%)</label>
+          <input type="number" class="fi" id="in-disc-pct" placeholder="0" min="0" max="100" oninput="calcGrand()"/>
+        </div>
+        <div class="fgrp">
+          <label class="flbl">Diskon (Rp)</label>
+          <input type="number" class="fi" id="in-disc-rp" placeholder="0" min="0" oninput="calcGrand()"/>
+        </div>
+        <div class="fgrp">
+          <label class="flbl">Ongkir / Biaya (Rp)</label>
+          <input type="number" class="fi" id="in-extra" placeholder="0" min="0" oninput="calcGrand()"/>
+        </div>
+      </div>
+      <div style="background:var(--s2);border:1px solid var(--bd2);border-radius:10px;padding:12px 14px;font-size:.8rem">
+        <div style="display:flex;justify-content:space-between;margin-bottom:5px">
+          <span style="color:var(--t3)">Subtotal Items</span>
+          <span id="gt-subtotal" style="font-weight:600;color:var(--t2)">Rp 0</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:5px" id="disc-row" style="display:none">
+          <span style="color:var(--red)">Diskon</span>
+          <span id="gt-disc" style="font-weight:600;color:var(--red)">- Rp 0</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:5px" id="extra-row" style="display:none">
+          <span style="color:var(--t3)">Biaya Tambahan</span>
+          <span id="gt-extra" style="font-weight:600;color:var(--t2)">Rp 0</span>
+        </div>
+        <div style="border-top:1px solid var(--bd2);margin:8px 0"></div>
+        <div style="display:flex;justify-content:space-between">
+          <span style="font-weight:700;color:var(--tx)">Total Bayar</span>
+          <span id="grand-total-detail" style="font-weight:800;color:var(--gl);font-size:1rem">Rp 0</span>
+        </div>
+      </div>
     </div>
 
     <div class="sum-bar">
@@ -492,11 +598,11 @@ table.dtbl{width:100%;border-collapse:collapse;min-width:440px}
       </div>
       <div class="sum-btns">
         <button class="btn btn-ghost btn-sm" onclick="resetForm()">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.44"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.44"/></svg>
           Reset
         </button>
         <button class="btn btn-gold" onclick="saveOrder()">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
           Simpan Order
         </button>
       </div>
@@ -506,25 +612,36 @@ table.dtbl{width:100%;border-collapse:collapse;min-width:440px}
   <!-- ── REKAP ── -->
   <div class="page" id="pg-rekap">
     <div class="pg-ttl">
-      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></div>
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></div>
       Rekap & Riwayat
     </div>
     <div class="filter-bar">
-      <input type="text" class="fi" id="fq" placeholder="🔍  Cari nama / menu..." oninput="doRekap()"/>
-      <input type="date" class="fi date-fi" id="ff" onchange="doRekap()" title="Dari tanggal"/>
-      <input type="date" class="fi date-fi" id="ft" onchange="doRekap()" title="Sampai tanggal"/>
+      <input type="text" class="fi" id="fq" placeholder="🔍  Cari nama / produk..." oninput="doRekap()" style="min-width:140px"/>
+      <input type="date" class="fi" id="ff" onchange="doRekap()" title="Dari tanggal" placeholder="dd/mm/yyyy" style="min-width:130px;max-width:155px"/>
+      <input type="date" class="fi" id="ft" onchange="doRekap()" title="Sampai tanggal" placeholder="dd/mm/yyyy" style="min-width:130px;max-width:155px"/>
+      <button class="btn btn-ghost btn-sm" onclick="clearFilter()" title="Reset filter">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.44"/></svg>
+      </button>
     </div>
     <div class="brow" style="margin-bottom:12px">
       <button class="btn btn-out btn-sm" onclick="xPDF()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-        Export PDF
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        PDF
       </button>
       <button class="btn btn-out btn-sm" onclick="xExcel()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
-        Export Excel
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
+        Excel
+      </button>
+      <button class="btn btn-info btn-sm" onclick="xJSON()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        Export JSON
+      </button>
+      <button class="btn btn-info btn-sm" onclick="importJSON()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        Import JSON
       </button>
       <button class="btn btn-danger btn-sm" onclick="confirmHapusSemua()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M9 6V4h6v2"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M9 6V4h6v2"/></svg>
         Hapus Semua
       </button>
     </div>
@@ -537,11 +654,9 @@ table.dtbl{width:100%;border-collapse:collapse;min-width:440px}
         <table class="dtbl">
           <thead><tr>
             <th>#</th><th>Tanggal</th><th>Pelanggan</th>
-            <th>Menu Dipesan</th><th>Total</th><th>Aksi</th>
+            <th>Item Dipesan</th><th>Bayar</th><th>Status</th><th>Aksi</th>
           </tr></thead>
-          <tbody id="rek-body">
-            <tr><td colspan="6"><div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><p>Belum ada data</p></div></td></tr>
-          </tbody>
+          <tbody id="rek-body"></tbody>
         </table>
       </div>
     </div>
@@ -550,25 +665,31 @@ table.dtbl{width:100%;border-collapse:collapse;min-width:440px}
   <!-- ── PRODUK ── -->
   <div class="page" id="pg-produk">
     <div class="pg-ttl">
-      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></div>
-      Manajemen Menu / Produk
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></div>
+      Manajemen Produk / Layanan
     </div>
+
+    <!-- Search produk -->
+    <div style="margin-bottom:12px">
+      <input type="text" class="fi" id="prod-search" placeholder="🔍  Cari produk..." oninput="renderProds()"/>
+    </div>
+
     <div class="card" id="prod-form">
       <div class="card-ttl" id="pf-ttl">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        Tambah Menu Baru
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Tambah Produk / Layanan Baru
       </div>
       <div class="fg fg2">
         <div class="fgrp">
-          <label class="flbl">Nama Menu</label>
+          <label class="flbl">Nama Produk / Layanan</label>
           <input type="text" class="fi" id="pf-name" placeholder="Contoh: Es Kopi Susu"/>
         </div>
         <div class="fgrp">
-          <label class="flbl">Emoji</label>
+          <label class="flbl">Emoji / Ikon</label>
           <input type="text" class="fi" id="pf-emoji" placeholder="☕" maxlength="4"/>
         </div>
       </div>
-      <div class="fg fg3">
+      <div class="fg fg4">
         <div class="fgrp">
           <label class="flbl">Harga (Rp)</label>
           <input type="number" class="fi" id="pf-price" placeholder="0" min="0"/>
@@ -581,54 +702,163 @@ table.dtbl{width:100%;border-collapse:collapse;min-width:440px}
           <label class="flbl">Stok</label>
           <input type="number" class="fi" id="pf-stok" placeholder="99" min="0"/>
         </div>
+        <div class="fgrp">
+          <label class="flbl">Satuan</label>
+          <input type="text" class="fi" id="pf-unit" placeholder="pcs / porsi"/>
+        </div>
+      </div>
+      <div class="fg fg1">
+        <div class="fgrp">
+          <label class="flbl">Deskripsi (Opsional)</label>
+          <input type="text" class="fi" id="pf-desc" placeholder="Keterangan produk..."/>
+        </div>
       </div>
       <input type="hidden" id="pf-id"/>
       <div class="brow">
         <button class="btn btn-gold" onclick="saveProd()">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-          Simpan Menu
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+          Simpan Produk
         </button>
         <button class="btn btn-ghost btn-sm" onclick="cancelProd()">Batal</button>
       </div>
     </div>
-    <div class="prod-grid" id="prod-grid">
-      <div class="empty" style="grid-column:1/-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><p>Belum ada menu. Tambahkan menu pertama!</p></div>
-    </div>
+    <div class="prod-grid" id="prod-grid"></div>
   </div>
 
   <!-- ── LAPORAN ── -->
   <div class="page" id="pg-laporan">
     <div class="pg-ttl">
-      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
       Laporan & Ekspor
     </div>
     <div class="card">
-      <div class="card-ttl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Ringkasan</div>
+      <div class="card-ttl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Ringkasan</div>
       <div class="stat-grid" style="margin-bottom:0" id="lap-stats"></div>
     </div>
     <div class="card">
-      <div class="card-ttl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Ekspor Data</div>
-      <p style="font-size:.8rem;color:var(--t2);margin-bottom:14px;line-height:1.6">Ekspor semua data rekap order ke format yang Anda butuhkan. File akan otomatis terunduh ke perangkat Anda.</p>
-      <div style="display:flex;flex-direction:column;gap:10px">
+      <div class="card-ttl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Ekspor & Backup Data</div>
+      <p style="font-size:.8rem;color:var(--t2);margin-bottom:14px;line-height:1.6">Ekspor semua data ke format yang dibutuhkan.</p>
+      <div style="display:flex;flex-direction:column;gap:9px">
         <button class="btn btn-out btn-full" onclick="xPDF()" style="justify-content:flex-start;padding:13px 16px">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;color:var(--red)"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;color:var(--red)"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
           <div style="text-align:left">
             <div style="font-size:.84rem;font-weight:700">Export ke PDF</div>
             <div style="font-size:.68rem;color:var(--t3);font-weight:400">Laporan siap cetak, format A4</div>
           </div>
         </button>
         <button class="btn btn-out btn-full" onclick="xExcel()" style="justify-content:flex-start;padding:13px 16px">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;color:var(--grn)"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;color:var(--grn)"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
           <div style="text-align:left">
             <div style="font-size:.84rem;font-weight:700">Export ke Excel (.xlsx)</div>
-            <div style="font-size:.68rem;color:var(--t3);font-weight:400">Spreadsheet lengkap 2 sheet + ringkasan</div>
+            <div style="font-size:.68rem;color:var(--t3);font-weight:400">Spreadsheet + ringkasan, 3 sheet</div>
+          </div>
+        </button>
+        <button class="btn btn-out btn-full" onclick="xJSON()" style="justify-content:flex-start;padding:13px 16px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;color:var(--blu)"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          <div style="text-align:left">
+            <div style="font-size:.84rem;font-weight:700">Export JSON (Backup)</div>
+            <div style="font-size:.68rem;color:var(--t3);font-weight:400">Backup semua data: order, produk, bisnis</div>
+          </div>
+        </button>
+        <button class="btn btn-ghost btn-full" onclick="importJSON()" style="justify-content:flex-start;padding:13px 16px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;color:var(--gd)"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          <div style="text-align:left">
+            <div style="font-size:.84rem;font-weight:700">Import JSON</div>
+            <div style="font-size:.68rem;color:var(--t3);font-weight:400">Pulihkan data dari file backup JSON</div>
           </div>
         </button>
       </div>
     </div>
     <div class="card">
-      <div class="card-ttl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>Top 5 Menu Terlaris</div>
+      <div class="card-ttl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>Top 5 Produk Terlaris</div>
       <div id="top-menu"></div>
+    </div>
+  </div>
+
+  <!-- ── PENGATURAN ── -->
+  <div class="page" id="pg-setting">
+    <div class="pg-ttl">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+      Pengaturan
+    </div>
+
+    <!-- Kelola Bisnis -->
+    <div class="set-section">
+      <div class="set-header">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Profil Bisnis
+      </div>
+      <div class="set-body">
+        <div id="biz-list" style="margin-bottom:13px"></div>
+        <button class="btn btn-gold btn-sm" onclick="openBizModal()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Tambah Bisnis
+        </button>
+      </div>
+    </div>
+
+    <!-- Tampilan -->
+    <div class="set-section">
+      <div class="set-header">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>
+        Tampilan
+      </div>
+      <div class="set-body">
+        <div class="set-row">
+          <div class="set-row-info">
+            <div class="sr-ttl">Mode Gelap / Terang</div>
+            <div class="sr-sub">Sesuaikan tema tampilan aplikasi</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="theme-toggle" onchange="toggleTheme()"/>
+            <div class="toggle-track"></div>
+            <div class="toggle-thumb"></div>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Data -->
+    <div class="set-section">
+      <div class="set-header">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+        Data & Backup
+      </div>
+      <div class="set-body">
+        <div class="set-row">
+          <div class="set-row-info">
+            <div class="sr-ttl">Export JSON (Backup)</div>
+            <div class="sr-sub">Simpan semua data ke file JSON</div>
+          </div>
+          <button class="btn btn-out btn-sm" onclick="xJSON()">Export</button>
+        </div>
+        <div class="set-row">
+          <div class="set-row-info">
+            <div class="sr-ttl">Import JSON (Restore)</div>
+            <div class="sr-sub">Pulihkan data dari file backup</div>
+          </div>
+          <button class="btn btn-out btn-sm" onclick="importJSON()">Import</button>
+        </div>
+        <div class="set-row">
+          <div class="set-row-info">
+            <div class="sr-ttl">Reset Semua Data</div>
+            <div class="sr-sub">Hapus semua order, produk, dan bisnis</div>
+          </div>
+          <button class="btn btn-danger btn-sm" onclick="resetAllData()">Reset</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- About -->
+    <div class="set-section">
+      <div class="set-header">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Tentang Aplikasi
+      </div>
+      <div class="set-body" style="font-size:.8rem;color:var(--t2);line-height:1.7">
+        <p><b style="color:var(--gl)">TrackOrders</b> — Aplikasi pencatatan order universal untuk berbagai jenis usaha.</p>
+        <p style="margin-top:6px;color:var(--t3);font-size:.72rem">Versi 2.0 · Data tersimpan di browser lokal</p>
+      </div>
     </div>
   </div>
 
@@ -638,28 +868,28 @@ table.dtbl{width:100%;border-collapse:collapse;min-width:440px}
 <nav class="bot-nav">
   <button class="nav-item active" id="ni-db" onclick="goPage('dashboard',this)">
     <div class="nav-dot"></div>
-    <div class="nav-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg></div>
+    <div class="nav-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg></div>
     <span class="nav-lbl">Beranda</span>
   </button>
   <button class="nav-item" id="ni-rk" onclick="goPage('rekap',this)">
     <div class="nav-dot"></div>
-    <div class="nav-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></div>
+    <div class="nav-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></div>
     <span class="nav-lbl">Rekap</span>
   </button>
   <button class="nav-item fab" id="ni-or" onclick="goPage('order',this)">
     <div class="nav-dot"></div>
-    <div class="nav-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+    <div class="nav-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
     <span class="nav-lbl">Order</span>
   </button>
   <button class="nav-item" id="ni-pr" onclick="goPage('produk',this)">
     <div class="nav-dot"></div>
-    <div class="nav-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></div>
-    <span class="nav-lbl">Menu</span>
+    <div class="nav-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></div>
+    <span class="nav-lbl">Produk</span>
   </button>
-  <button class="nav-item" id="ni-lp" onclick="goPage('laporan',this)">
+  <button class="nav-item" id="ni-st" onclick="goPage('setting',this)">
     <div class="nav-dot"></div>
-    <div class="nav-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
-    <span class="nav-lbl">Laporan</span>
+    <div class="nav-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+    <span class="nav-lbl">Setting</span>
   </button>
 </nav>
 
@@ -678,28 +908,90 @@ table.dtbl{width:100%;border-collapse:collapse;min-width:440px}
   </div>
 </div>
 
+<!-- Business Modal -->
+<div class="modal-bg" id="modal-biz">
+  <div class="modal-box">
+    <div class="modal-ttl" id="mbiz-ttl">➕ Tambah Bisnis</div>
+    <div class="fg fg1" style="margin-bottom:10px">
+      <div class="fgrp">
+        <label class="flbl">Nama Bisnis *</label>
+        <input type="text" class="fi" id="biz-name" placeholder="Contoh: Kafe Nusantara"/>
+      </div>
+    </div>
+    <div class="fg fg2" style="margin-bottom:10px">
+      <div class="fgrp">
+        <label class="flbl">Emoji / Ikon</label>
+        <input type="text" class="fi" id="biz-emoji" placeholder="🏪" maxlength="4"/>
+      </div>
+      <div class="fgrp">
+        <label class="flbl">Jenis Usaha</label>
+        <input type="text" class="fi" id="biz-type" placeholder="Kafe, Toko, Jasa..."/>
+      </div>
+    </div>
+    <div class="fg fg1" style="margin-bottom:10px">
+      <div class="fgrp">
+        <label class="flbl">Alamat</label>
+        <input type="text" class="fi" id="biz-addr" placeholder="Jl. Merdeka No. 1, Jakarta..."/>
+      </div>
+    </div>
+    <div class="fg fg2" style="margin-bottom:10px">
+      <div class="fgrp">
+        <label class="flbl">No. Telepon / WhatsApp</label>
+        <input type="tel" class="fi" id="biz-phone" placeholder="+62 812-xxxx-xxxx"/>
+      </div>
+      <div class="fgrp">
+        <label class="flbl">Email</label>
+        <input type="email" class="fi" id="biz-email" placeholder="bisnis@email.com"/>
+      </div>
+    </div>
+    <div class="fg fg2" style="margin-bottom:10px">
+      <div class="fgrp">
+        <label class="flbl">Instagram</label>
+        <input type="text" class="fi" id="biz-ig" placeholder="@namaakun"/>
+      </div>
+      <div class="fgrp">
+        <label class="flbl">Website / Link Lain</label>
+        <input type="text" class="fi" id="biz-web" placeholder="www.bisnisanda.com"/>
+      </div>
+    </div>
+    <div class="fg fg1" style="margin-bottom:16px">
+      <div class="fgrp">
+        <label class="flbl">Tagline / Bio Singkat</label>
+        <input type="text" class="fi" id="biz-bio" placeholder="Kopi terbaik untuk hari yang lebih baik..."/>
+      </div>
+    </div>
+    <input type="hidden" id="biz-edit-id"/>
+    <div class="brow">
+      <button class="btn btn-gold" onclick="saveBiz()">Simpan Bisnis</button>
+      <button class="btn btn-ghost" onclick="closeModal('modal-biz')">Batal</button>
+    </div>
+  </div>
+</div>
+
+<!-- Hidden file input for JSON import -->
+<input type="file" id="json-file-input" accept=".json" style="display:none" onchange="handleJSONImport(event)"/>
+
 <!-- ══ SCRIPT ══════════════════════════════════════════════════════ -->
 <script>
 /* ─────────────────────────────────────────
    STATE
 ───────────────────────────────────────── */
-var orders   = JSON.parse(localStorage.getItem('bt_orders') || '[]');
-var products = JSON.parse(localStorage.getItem('bt_prods')  || '[]');
-var curTheme = localStorage.getItem('bt_theme') || 'dark';
-var rowIdx   = 0;
-var chart7   = null;
+var orders    = JSON.parse(localStorage.getItem('to_orders')    || '[]');
+var products  = JSON.parse(localStorage.getItem('to_prods')     || '[]');
+var businesses= JSON.parse(localStorage.getItem('to_businesses')|| '[]');
+var activeBiz = localStorage.getItem('to_active_biz') || '';
+var curTheme  = localStorage.getItem('to_theme') || 'dark';
+var rowIdx    = 0;
+var chart7    = null;
 
 /* ─────────────────────────────────────────
    DEFAULT PRODUCTS
 ───────────────────────────────────────── */
 if (!products.length) {
   products = [
-    {id:uid(),name:'Es Kopi Susu',     emoji:'☕',price:18000,cat:'Minuman',stok:50},
-    {id:uid(),name:'Kopi Botol 250ml', emoji:'🍶',price:12000,cat:'Minuman',stok:30},
-    {id:uid(),name:'Kopi Botol 500ml', emoji:'🧴',price:20000,cat:'Minuman',stok:20},
-    {id:uid(),name:'Matcha Latte',     emoji:'🍵',price:22000,cat:'Minuman',stok:25},
-    {id:uid(),name:'Es Coklat',        emoji:'🍫',price:15000,cat:'Minuman',stok:30},
-    {id:uid(),name:'Croissant',        emoji:'🥐',price:18000,cat:'Makanan',stok:15},
+    {id:uid(),name:'Produk A',    emoji:'📦',price:50000, cat:'Umum',  stok:50, unit:'pcs', desc:''},
+    {id:uid(),name:'Layanan B',   emoji:'🛠️',price:100000,cat:'Jasa',  stok:99, unit:'sesi',desc:''},
+    {id:uid(),name:'Paket C',     emoji:'🎁',price:75000, cat:'Paket', stok:30, unit:'pcs', desc:''},
   ];
   save();
 }
@@ -708,7 +1000,7 @@ if (!products.length) {
    UTILS
 ───────────────────────────────────────── */
 function uid() {
-  return Date.now().toString(36) + Math.random().toString(36).slice(2,6);
+  return Date.now().toString(36) + Math.random().toString(36).slice(2,7);
 }
 function rp(n) {
   return 'Rp ' + (Number(n)||0).toLocaleString('id-ID');
@@ -722,13 +1014,15 @@ function fmtD(d) {
   catch(e) { return d; }
 }
 function esc(s) {
-  return String(s||'')
-    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 function save() {
-  localStorage.setItem('bt_orders', JSON.stringify(orders));
-  localStorage.setItem('bt_prods',  JSON.stringify(products));
+  localStorage.setItem('to_orders',     JSON.stringify(orders));
+  localStorage.setItem('to_prods',      JSON.stringify(products));
+  localStorage.setItem('to_businesses', JSON.stringify(businesses));
+}
+function getActiveBiz() {
+  return businesses.find(function(b){ return b.id === activeBiz; }) || null;
 }
 
 /* ─────────────────────────────────────────
@@ -737,13 +1031,33 @@ function save() {
 function applyTheme(t) {
   curTheme = t;
   document.documentElement.setAttribute('data-theme', t);
-  localStorage.setItem('bt_theme', t);
-  document.getElementById('ico-sun').style.display  = (t === 'dark')  ? '' : 'none';
-  document.getElementById('ico-moon').style.display = (t === 'light') ? '' : 'none';
+  localStorage.setItem('to_theme', t);
+  var isDark = t === 'dark';
+  document.getElementById('ico-sun').style.display  = isDark  ? '' : 'none';
+  document.getElementById('ico-moon').style.display = isDark  ? 'none' : '';
+  var tgl = document.getElementById('theme-toggle');
+  if (tgl) tgl.checked = isDark;
   if (chart7) drawChart();
 }
-function toggleTheme() { applyTheme(curTheme === 'dark' ? 'light' : 'dark'); }
+function toggleTheme() {
+  applyTheme(curTheme === 'dark' ? 'light' : 'dark');
+}
 applyTheme(curTheme);
+
+/* ─────────────────────────────────────────
+   HEADER BIZ NAME
+───────────────────────────────────────── */
+function refreshHdrBiz() {
+  var biz = getActiveBiz();
+  var el  = document.getElementById('hdr-biz-name');
+  if (biz) {
+    el.textContent = (biz.emoji ? biz.emoji+' ' : '') + biz.name;
+    el.style.display = '';
+  } else {
+    el.textContent = 'Pencatatan Order Universal';
+    el.style.display = '';
+  }
+}
 
 /* ─────────────────────────────────────────
    NAVIGATION
@@ -758,6 +1072,8 @@ function goPage(name, btn) {
   if (name === 'order')     initForm();
   if (name === 'produk')    renderProds();
   if (name === 'laporan')   renderLaporan();
+  if (name === 'setting')   renderSettings();
+  window.scrollTo(0, 0);
 }
 
 /* ─────────────────────────────────────────
@@ -773,7 +1089,7 @@ function toast(msg, type) {
     i: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>'
   };
   el.className = 'toast t-' + type;
-  el.innerHTML = (icons[type] || icons.i) + esc(msg);
+  el.innerHTML = (icons[type]||icons.i) + esc(msg);
   z.appendChild(el);
   setTimeout(function(){
     el.style.transition = 'all .28s ease';
@@ -788,7 +1104,7 @@ function toast(msg, type) {
 ───────────────────────────────────────── */
 function openModal(id) { document.getElementById(id).classList.add('open'); }
 function closeModal(id) { document.getElementById(id).classList.remove('open'); }
-function confirm(msg, cb, ttl) {
+function confirmDlg(msg, cb, ttl) {
   ttl = ttl || '⚠️ Konfirmasi';
   document.getElementById('mok-ttl').textContent = ttl;
   document.getElementById('mok-msg').textContent = msg;
@@ -806,15 +1122,14 @@ function refreshDash() {
   var td = today();
   var mn = td.slice(0,7);
   var tOrd = orders.filter(function(o){ return o.date === td; });
-  var mOrd = orders.filter(function(o){ return o.date && o.date.indexOf(mn) === 0; });
+  var mOrd = orders.filter(function(o){ return o.date && o.date.startsWith(mn); });
 
-  document.getElementById('st-hari').textContent   = rp(tOrd.reduce(function(s,o){ return s+o.total; },0));
-  document.getElementById('st-hari-n').textContent = tOrd.length + ' transaksi';
-  document.getElementById('st-bulan').textContent   = rp(mOrd.reduce(function(s,o){ return s+o.total; },0));
+  document.getElementById('st-hari').textContent    = rp(tOrd.reduce(function(s,o){return s+o.total;},0));
+  document.getElementById('st-hari-n').textContent  = tOrd.length + ' transaksi';
+  document.getElementById('st-bulan').textContent   = rp(mOrd.reduce(function(s,o){return s+o.total;},0));
   document.getElementById('st-bulan-n').textContent = mOrd.length + ' transaksi';
   document.getElementById('st-total').textContent   = orders.length;
 
-  // Best seller
   var sm = {};
   orders.forEach(function(o){
     o.items.forEach(function(it){ sm[it.name] = (sm[it.name]||0) + it.qty; });
@@ -841,36 +1156,33 @@ function drawChart() {
   var ctx = document.getElementById('weekChart').getContext('2d');
   if (chart7) { chart7.destroy(); chart7 = null; }
   chart7 = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: labels,
-      datasets: [{
-        data: data,
-        backgroundColor: data.map(function(v){ return v > 0 ? 'rgba(201,151,58,.72)' : 'rgba(201,151,58,.1)'; }),
-        borderColor: 'rgba(201,151,58,.85)',
-        borderWidth: 1.5,
-        borderRadius: 7,
-        borderSkipped: false,
-        hoverBackgroundColor: 'rgba(232,184,75,.88)'
+    type:'bar',
+    data:{
+      labels:labels,
+      datasets:[{
+        data:data,
+        backgroundColor:data.map(function(v){ return v>0?'rgba(201,151,58,.72)':'rgba(201,151,58,.1)'; }),
+        borderColor:'rgba(201,151,58,.85)',
+        borderWidth:1.5,borderRadius:7,borderSkipped:false,
+        hoverBackgroundColor:'rgba(232,184,75,.88)'
       }]
     },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          backgroundColor: dk ? '#181411' : '#fff',
-          borderColor: 'rgba(201,151,58,.3)', borderWidth: 1,
-          titleColor: dk ? '#c9973a' : '#8a6010',
-          bodyColor: dk ? '#ede5d8' : '#2a1f0f',
-          padding: 10,
-          callbacks: { label: function(c){ return ' ' + rp(c.parsed.y); } }
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        tooltip:{
+          backgroundColor:dk?'#181411':'#fff',
+          borderColor:'rgba(201,151,58,.3)',borderWidth:1,
+          titleColor:dk?'#c9973a':'#8a6010',
+          bodyColor:dk?'#ede5d8':'#2a1f0f',padding:10,
+          callbacks:{label:function(c){return ' '+rp(c.parsed.y);}}
         }
       },
-      scales: {
-        x: { grid:{color:gc}, ticks:{color:tc,font:{size:9,family:'Plus Jakarta Sans'}} },
-        y: { grid:{color:gc}, ticks:{color:tc,font:{size:9,family:'Plus Jakarta Sans'},
-          callback: function(v){ return v >= 1000 ? 'Rp '+(v/1000).toFixed(0)+'K' : rp(v); }
+      scales:{
+        x:{grid:{color:gc},ticks:{color:tc,font:{size:9,family:'Plus Jakarta Sans'}}},
+        y:{grid:{color:gc},ticks:{color:tc,font:{size:9,family:'Plus Jakarta Sans'},
+          callback:function(v){return v>=1000?'Rp '+(v/1000).toFixed(0)+'K':rp(v);}
         }}
       }
     }
@@ -878,24 +1190,27 @@ function drawChart() {
 }
 
 function renderRecent() {
-  var el = document.getElementById('recent-list');
+  var el  = document.getElementById('recent-list');
   var rec = orders.slice().sort(function(a,b){ return new Date(b.createdAt)-new Date(a.createdAt); }).slice(0,5);
   if (!rec.length) {
-    el.innerHTML = '<div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><p>Belum ada order. Catat order pertama sekarang!</p></div>';
+    el.innerHTML = '<div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><p>Belum ada order. Catat order pertama sekarang!</p></div>';
     return;
   }
-  el.innerHTML = rec.map(function(o){
-    var fi = o.items[0];
+  el.innerHTML = rec.map(function(o) {
+    var fi   = o.items[0];
     var prod = fi && products.find(function(p){ return p.name === fi.name; });
     var emoji = (prod && prod.emoji) || '🛒';
-    var itemSummary = o.items.map(function(it){ return it.name + ' ×' + it.qty; }).join(', ');
+    var itemSum = o.items.slice(0,2).map(function(it){ return it.name+' ×'+it.qty; }).join(', ') + (o.items.length > 2 ? '...' : '');
+    var payBadge = o.payStatus === 'paid' ? '<span class="badge b-grn" style="margin-left:4px">Lunas</span>' :
+                   o.payStatus === 'dp'   ? '<span class="badge b-gold" style="margin-left:4px">DP</span>' :
+                                            '<span class="badge b-red" style="margin-left:4px">Belum Lunas</span>';
     return '<div class="r-item">' +
-      '<div class="r-dot">' + emoji + '</div>' +
+      '<div class="r-dot">'+emoji+'</div>' +
       '<div class="r-info">' +
-        '<div class="r-name">' + esc(o.customer||'Umum') + '</div>' +
-        '<div class="r-meta">' + fmtD(o.date) + ' · ' + itemSummary + '</div>' +
+        '<div class="r-name">'+esc(o.customer||'Umum')+payBadge+'</div>' +
+        '<div class="r-meta">'+fmtD(o.date)+' · '+esc(itemSum)+'</div>' +
       '</div>' +
-      '<div class="r-total">' + rp(o.total) + '</div>' +
+      '<div class="r-total">'+rp(o.total)+'</div>' +
     '</div>';
   }).join('');
 }
@@ -913,33 +1228,41 @@ function initForm() {
 
 function addRow() {
   var id = rowIdx++;
-  var opts = '<option value="">— Pilih Menu —</option>' +
+  var opts = '<option value="">— Pilih Produk —</option>' +
     products.map(function(p){
-      return '<option value="' + esc(p.name) + '" data-price="' + p.price + '">' + esc(p.name) + ' — ' + rp(p.price) + '</option>';
+      return '<option value="'+esc(p.name)+'" data-price="'+p.price+'">'+
+             (p.emoji?p.emoji+' ':'')+esc(p.name)+' — '+rp(p.price)+
+             '</option>';
     }).join('') +
     '<option value="__custom">✏️ Ketik manual...</option>';
 
   var row = document.createElement('div');
   row.className = 'item-row';
-  row.id = 'row_' + id;
+  row.id = 'row_'+id;
   row.innerHTML =
-    '<select class="fi" id="sel_' + id + '" style="font-size:.82rem;min-width:0" onchange="onSel(' + id + ',this)">' +
-      opts +
-    '</select>' +
-    '<input type="number" class="fi col-qty-h" id="qty_' + id + '" value="1" min="1" max="9999" oninput="calcRow(' + id + ')" style="text-align:center">' +
-    '<input type="number" class="fi col-price" id="prc_' + id + '" placeholder="0" min="0" oninput="calcRow(' + id + ')">' +
-    '<div class="sub-display col-sub" id="sub_' + id + '">Rp 0</div>' +
-    '<button type="button" class="del-btn" onclick="delRow(' + id + ')">' +
-      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>' +
+    /* Product select */
+    '<select class="fi" id="sel_'+id+'" style="font-size:.8rem;min-width:0" onchange="onSel('+id+',this)">'+opts+'</select>'+
+    /* Qty input — ALWAYS visible */
+    '<input type="number" class="fi" id="qty_'+id+'" value="1" min="1" max="9999"'+
+      ' oninput="calcRow('+id+')" style="text-align:center;min-width:0"/>'+
+    /* Price input */
+    '<input type="number" class="fi" id="prc_'+id+'" placeholder="Harga" min="0"'+
+      ' oninput="calcRow('+id+')" style="min-width:0"/>'+
+    /* Subtotal display */
+    '<div class="sub-display" id="sub_'+id+'">Rp 0</div>'+
+    /* Delete button */
+    '<button type="button" class="del-btn" onclick="delRow('+id+')" title="Hapus item">'+
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>'+
     '</button>';
   document.getElementById('item-rows').appendChild(row);
+  // Focus pada select yang baru ditambahkan
+  setTimeout(function(){ var s = document.getElementById('sel_'+id); if(s) s.focus(); }, 50);
 }
 
 function onSel(id, sel) {
   if (sel.value === '__custom') {
-    var nm = (prompt('Masukkan nama menu / produk:') || '').trim();
+    var nm = (prompt('Masukkan nama produk / layanan:') || '').trim();
     if (nm) {
-      // Cek apakah option sudah ada
       var found = false;
       for (var i = 0; i < sel.options.length; i++) {
         if (sel.options[i].value === nm) { found = true; break; }
@@ -950,27 +1273,25 @@ function onSel(id, sel) {
         sel.insertBefore(op, sel.querySelector('option[value="__custom"]'));
       }
       sel.value = nm;
-      // Clear price karena custom
-      document.getElementById('prc_' + id).value = '';
+      // kosongkan harga, biarkan user isi manual
+      document.getElementById('prc_'+id).value = '';
+      document.getElementById('prc_'+id).focus();
     } else {
       sel.value = '';
       return;
     }
   } else if (sel.value) {
-    // Auto-fill harga dari data-price
-    var selectedOpt = sel.options[sel.selectedIndex];
-    var p = selectedOpt.getAttribute('data-price');
-    if (p) {
-      document.getElementById('prc_' + id).value = p;
-    }
+    var opt = sel.options[sel.selectedIndex];
+    var p   = opt.getAttribute('data-price');
+    if (p) document.getElementById('prc_'+id).value = p;
   }
   calcRow(id);
 }
 
 function calcRow(id) {
-  var qEl = document.getElementById('qty_' + id);
-  var pEl = document.getElementById('prc_' + id);
-  var sEl = document.getElementById('sub_' + id);
+  var qEl = document.getElementById('qty_'+id);
+  var pEl = document.getElementById('prc_'+id);
+  var sEl = document.getElementById('sub_'+id);
   var qty = parseInt(qEl ? qEl.value : 0) || 0;
   var prc = parseInt(pEl ? pEl.value : 0) || 0;
   if (sEl) sEl.textContent = rp(qty * prc);
@@ -978,61 +1299,88 @@ function calcRow(id) {
 }
 
 function delRow(id) {
-  var row = document.getElementById('row_' + id);
-  if (row) row.remove();
-  calcGrand();
+  var rows = document.querySelectorAll('#item-rows .item-row');
+  if (rows.length <= 1) { toast('Minimal 1 item harus ada!', 'e'); return; }
+  var row = document.getElementById('row_'+id);
+  if (row) { row.style.opacity='0'; row.style.transform='translateX(20px)'; row.style.transition='all .2s'; setTimeout(function(){ row.remove(); calcGrand(); }, 200); }
 }
 
 function calcGrand() {
-  var total = 0;
-  var rows = document.querySelectorAll('#item-rows .item-row');
-  rows.forEach(function(row) {
+  var subtotal = 0;
+  document.querySelectorAll('#item-rows .item-row').forEach(function(row) {
     var m = row.id.match(/^row_(\d+)$/);
     if (!m) return;
-    var i = m[1];
+    var i   = m[1];
     var qty = parseInt((document.getElementById('qty_'+i)||{}).value) || 0;
     var prc = parseInt((document.getElementById('prc_'+i)||{}).value) || 0;
-    total += qty * prc;
+    subtotal += qty * prc;
   });
-  document.getElementById('grand-total').textContent = rp(total);
+
+  var discPct  = parseFloat(document.getElementById('in-disc-pct').value) || 0;
+  var discRp   = parseInt(document.getElementById('in-disc-rp').value) || 0;
+  var extra    = parseInt(document.getElementById('in-extra').value) || 0;
+
+  var discFromPct = Math.round(subtotal * discPct / 100);
+  var totalDisc   = discFromPct + discRp;
+  var grandTotal  = Math.max(0, subtotal - totalDisc + extra);
+
+  document.getElementById('gt-subtotal').textContent = rp(subtotal);
+  document.getElementById('gt-disc').textContent     = '- ' + rp(totalDisc);
+  document.getElementById('gt-extra').textContent    = rp(extra);
+  document.getElementById('grand-total-detail').textContent = rp(grandTotal);
+  document.getElementById('grand-total').textContent        = rp(grandTotal);
+
+  document.getElementById('disc-row').style.display  = totalDisc > 0 ? 'flex' : 'none';
+  document.getElementById('extra-row').style.display = extra > 0     ? 'flex' : 'none';
 }
 
 function saveOrder() {
   var date = document.getElementById('in-date').value;
-  if (!date) { toast('Pilih tanggal order terlebih dahulu!', 'e'); return; }
+  if (!date) { toast('Pilih tanggal order!', 'e'); return; }
 
   var items = [];
   var errMsg = '';
-  var rows = document.querySelectorAll('#item-rows .item-row');
-  
-  rows.forEach(function(row) {
-    var m = row.id.match(/^row_(\d+)$/);
-    if (!m || errMsg) return;
+  document.querySelectorAll('#item-rows .item-row').forEach(function(row) {
+    if (errMsg) return;
+    var m   = row.id.match(/^row_(\d+)$/);
+    if (!m) return;
     var i   = m[1];
-    var sel = document.getElementById('sel_' + i);
-    var qEl = document.getElementById('qty_' + i);
-    var pEl = document.getElementById('prc_' + i);
-    var name = sel ? sel.value : '';
+    var sel = document.getElementById('sel_'+i);
+    var qEl = document.getElementById('qty_'+i);
+    var pEl = document.getElementById('prc_'+i);
+    var name = sel ? sel.value.trim() : '';
     var qty  = parseInt(qEl ? qEl.value : 0) || 0;
     var prc  = parseInt(pEl ? pEl.value : 0) || 0;
-    if (!name || name === '__custom') { errMsg = 'Pilih menu terlebih dahulu!'; return; }
+    if (!name || name === '__custom') { errMsg = 'Pilih atau isi nama produk/layanan!'; return; }
     if (qty <= 0)  { errMsg = 'Quantity harus lebih dari 0!'; return; }
     if (prc <= 0)  { errMsg = 'Harga harus lebih dari 0!'; return; }
-    items.push({ name: name, qty: qty, price: prc, subtotal: qty * prc });
+    items.push({name:name, qty:qty, price:prc, subtotal:qty*prc});
   });
 
   if (errMsg) { toast(errMsg, 'e'); return; }
   if (!items.length) { toast('Tambahkan minimal 1 item!', 'e'); return; }
 
-  var total = items.reduce(function(s,it){ return s + it.subtotal; }, 0);
+  var subtotal   = items.reduce(function(s,it){ return s+it.subtotal; }, 0);
+  var discPct    = parseFloat(document.getElementById('in-disc-pct').value) || 0;
+  var discRp     = parseInt(document.getElementById('in-disc-rp').value) || 0;
+  var extra      = parseInt(document.getElementById('in-extra').value) || 0;
+  var totalDisc  = Math.round(subtotal * discPct / 100) + discRp;
+  var grandTotal = Math.max(0, subtotal - totalDisc + extra);
+
   var order = {
-    id:        uid(),
-    date:      date,
-    customer:  (document.getElementById('in-cust').value.trim()) || 'Umum',
-    note:      document.getElementById('in-note').value.trim(),
-    items:     items,
-    total:     total,
-    createdAt: new Date().toISOString()
+    id:         uid(),
+    bizId:      activeBiz,
+    date:       date,
+    customer:   (document.getElementById('in-cust').value.trim()) || 'Umum',
+    phone:      document.getElementById('in-phone').value.trim(),
+    note:       document.getElementById('in-note').value.trim(),
+    payStatus:  document.getElementById('in-pay').value,
+    items:      items,
+    subtotal:   subtotal,
+    discount:   totalDisc,
+    extraFee:   extra,
+    total:      grandTotal,
+    createdAt:  new Date().toISOString()
   };
   orders.unshift(order);
   save();
@@ -1042,9 +1390,14 @@ function saveOrder() {
 }
 
 function resetForm() {
-  document.getElementById('in-cust').value = '';
-  document.getElementById('in-note').value = '';
-  document.getElementById('in-date').value = today();
+  document.getElementById('in-cust').value     = '';
+  document.getElementById('in-phone').value    = '';
+  document.getElementById('in-note').value     = '';
+  document.getElementById('in-date').value     = today();
+  document.getElementById('in-pay').value      = 'unpaid';
+  document.getElementById('in-disc-pct').value = '';
+  document.getElementById('in-disc-rp').value  = '';
+  document.getElementById('in-extra').value    = '';
   document.getElementById('item-rows').innerHTML = '';
   rowIdx = 0;
   addRow();
@@ -1054,46 +1407,75 @@ function resetForm() {
 /* ─────────────────────────────────────────
    REKAP
 ───────────────────────────────────────── */
+function clearFilter() {
+  document.getElementById('fq').value = '';
+  document.getElementById('ff').value = '';
+  document.getElementById('ft').value = '';
+  doRekap();
+}
+
 function doRekap() {
-  var q  = (document.getElementById('fq').value || '').toLowerCase();
+  var q  = (document.getElementById('fq').value||'').toLowerCase();
   var fr = document.getElementById('ff').value;
   var to = document.getElementById('ft').value;
 
   var filt = orders.filter(function(o) {
-    var mq = !q || (o.customer||'').toLowerCase().indexOf(q) >= 0 ||
-             o.items.some(function(it){ return it.name.toLowerCase().indexOf(q) >= 0; });
+    var mq = !q || (o.customer||'').toLowerCase().includes(q) ||
+             o.items.some(function(it){ return it.name.toLowerCase().includes(q); });
     var mf = !fr || o.date >= fr;
     var mt = !to || o.date <= to;
     return mq && mf && mt;
-  }).sort(function(a,b){ return new Date(b.date) - new Date(a.date); });
+  }).sort(function(a,b){ return b.date < a.date ? -1 : b.date > a.date ? 1 : 0; });
 
-  var gt = filt.reduce(function(s,o){ return s + o.total; }, 0);
+  var gt = filt.reduce(function(s,o){ return s+o.total; }, 0);
   document.getElementById('rek-cnt').textContent   = filt.length + ' Transaksi';
   document.getElementById('rek-total').textContent = rp(gt);
 
   var tb = document.getElementById('rek-body');
   if (!filt.length) {
-    tb.innerHTML = '<tr><td colspan="6"><div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><p>Tidak ada data ditemukan</p></div></td></tr>';
+    tb.innerHTML = '<tr><td colspan="7"><div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><p>Tidak ada data</p></div></td></tr>';
     return;
   }
-
   tb.innerHTML = filt.map(function(o, i) {
-    var itemStr = o.items.map(function(it){ return esc(it.name) + ' <b>×'+it.qty+'</b>'; }).join(', ');
-    return '<tr>' +
-      '<td class="c-dim">' + (i+1) + '</td>' +
-      '<td>' + fmtD(o.date) + '</td>' +
-      '<td class="c-tx">' + esc(o.customer||'Umum') + '</td>' +
-      '<td class="c-dim" style="max-width:160px;white-space:normal;line-height:1.6">' + itemStr + '</td>' +
-      '<td class="c-gold">' + rp(o.total) + '</td>' +
-      '<td><button class="btn btn-danger btn-xs" onclick="hapusOrder(\'' + o.id + '\')">' +
-        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M9 6V4h6v2"/></svg>' +
-        'Hapus</button></td>' +
+    var itemStr = o.items.slice(0,3).map(function(it){
+      return '<span class="detail-chip">'+esc(it.name)+' <span>×'+it.qty+'</span></span>';
+    }).join('') + (o.items.length > 3 ? '<span class="detail-chip" style="color:var(--t3)">+'+( o.items.length-3)+' lagi</span>' : '');
+    var payBadge = o.payStatus === 'paid' ? '<span class="badge b-grn">Lunas</span>' :
+                   o.payStatus === 'dp'   ? '<span class="badge b-gold">DP</span>' :
+                                            '<span class="badge b-red">Belum Lunas</span>';
+    return '<tr>'+
+      '<td class="c-dim">'+(i+1)+'</td>'+
+      '<td>'+fmtD(o.date)+'</td>'+
+      '<td class="c-tx">'+esc(o.customer||'Umum')+(o.phone?'<div style="font-size:.65rem;color:var(--t3)">'+esc(o.phone)+'</div>':'')+'</td>'+
+      '<td style="max-width:180px"><div class="detail-items">'+itemStr+'</div>'+(o.note?'<div style="font-size:.65rem;color:var(--t3);margin-top:4px">📝 '+esc(o.note)+'</div>':'')+'</td>'+
+      '<td class="c-gold">'+rp(o.total)+'</td>'+
+      '<td>'+payBadge+'</td>'+
+      '<td><div style="display:flex;gap:4px;flex-wrap:wrap">'+
+        '<button class="btn btn-ghost btn-xs" onclick="editOrderStatus(\''+o.id+'\')" title="Ubah status">'+
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:11px;height:11px"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>'+
+        '</button>'+
+        '<button class="btn btn-danger btn-xs" onclick="hapusOrder(\''+o.id+'\')">'+
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M9 6V4h6v2"/></svg>'+
+        '</button>'+
+      '</div></td>'+
     '</tr>';
   }).join('');
 }
 
+function editOrderStatus(id) {
+  var o = orders.find(function(x){ return x.id === id; });
+  if (!o) return;
+  var opts = ['unpaid','paid','dp'];
+  var lbls = ['Belum Lunas','Lunas','DP / Uang Muka'];
+  var cur  = opts.indexOf(o.payStatus||'unpaid');
+  var next = (cur + 1) % 3;
+  o.payStatus = opts[next];
+  save(); doRekap();
+  toast('Status diubah ke: '+lbls[next], 's');
+}
+
 function hapusOrder(id) {
-  confirm('Hapus order ini? Data tidak bisa dikembalikan.', function() {
+  confirmDlg('Hapus order ini? Data tidak bisa dikembalikan.', function() {
     orders = orders.filter(function(o){ return o.id !== id; });
     save(); doRekap(); refreshDash();
     toast('Order dihapus', 's');
@@ -1102,338 +1484,529 @@ function hapusOrder(id) {
 
 function confirmHapusSemua() {
   if (!orders.length) { toast('Tidak ada data untuk dihapus!', 'e'); return; }
-  confirm('SEMUA data order (' + orders.length + ' transaksi) akan dihapus permanen!', function() {
+  confirmDlg('SEMUA data order ('+orders.length+' transaksi) akan dihapus permanen!', function() {
     orders = [];
     save(); doRekap(); refreshDash();
-    toast('Semua data berhasil dihapus', 's');
-  }, '🗑️ Hapus Semua Data');
+    toast('Semua order dihapus', 's');
+  }, '🗑️ Hapus Semua Order');
 }
 
 /* ─────────────────────────────────────────
-   EXPORT PDF  ← FIXED
+   EXPORT PDF
 ───────────────────────────────────────── */
 function xPDF() {
   if (!orders.length) { toast('Tidak ada data untuk diekspor!', 'e'); return; }
-  
-  // Pastikan library tersedia
-  if (!window.jspdf) { toast('Library PDF belum siap, tunggu sebentar...', 'e'); return; }
-  
+  if (!window.jspdf)  { toast('Library PDF belum siap...', 'e'); return; }
   try {
-    var jsPDF = window.jspdf.jsPDF;
-    var doc   = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-    var now   = new Date();
-    var pageW = 210;
-    
-    /* ── Header block ── */
-    doc.setFillColor(30, 20, 8);
-    doc.rect(0, 0, pageW, 38, 'F');
+    var jsPDF  = window.jspdf.jsPDF;
+    var doc    = new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+    var now    = new Date();
+    var pageW  = 210;
+    var biz    = getActiveBiz();
+    var bizNm  = biz ? biz.name : 'TrackOrders';
 
-    doc.setFontSize(22);
-    doc.setTextColor(232, 184, 75);
-    doc.setFont('helvetica', 'bold');
-    doc.text('BrewTrack', 14, 17);
+    /* Header block */
+    doc.setFillColor(20, 15, 5);
+    doc.rect(0, 0, pageW, 42, 'F');
+    doc.setFontSize(22); doc.setTextColor(232,184,75);
+    doc.setFont('helvetica','bold');
+    doc.text('TrackOrders', 14, 16);
+    doc.setFontSize(10); doc.setTextColor(201,151,58);
+    doc.text(bizNm, 14, 24);
+    if (biz && biz.addr) { doc.setFontSize(8); doc.setTextColor(140,120,80); doc.text(biz.addr, 14, 30); }
+    if (biz && biz.phone){ doc.setFontSize(8); doc.setTextColor(140,120,80); doc.text('📞 '+biz.phone, 14, 36); }
+    doc.setFontSize(8); doc.setTextColor(120,100,65);
+    doc.text('Dicetak: '+now.toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'})+
+             '  '+now.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'}), 14, 40);
 
-    doc.setFontSize(9);
-    doc.setTextColor(160, 140, 100);
-    doc.setFont('helvetica', 'normal');
-    doc.text('Rekap & Laporan Order Usaha', 14, 25);
-    doc.text('Dicetak: ' + now.toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'}) +
-             '  ' + now.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'}), 14, 32);
-
-    /* ── Total box ── */
-    var gt = orders.reduce(function(s,o){ return s + o.total; }, 0);
-    doc.setFillColor(55, 42, 16);
-    doc.roundedRect(118, 8, 80, 24, 3, 3, 'F');
-    doc.setFontSize(7);
-    doc.setTextColor(160, 135, 85);
+    var gt = orders.reduce(function(s,o){ return s+o.total; },0);
+    doc.setFillColor(50, 38, 14);
+    doc.roundedRect(118, 8, 80, 28, 3, 3, 'F');
+    doc.setFontSize(7); doc.setTextColor(150,120,70);
     doc.text('TOTAL KESELURUHAN', 124, 16);
-    doc.setFontSize(14);
-    doc.setTextColor(232, 184, 75);
-    doc.setFont('helvetica', 'bold');
-    doc.text(rp(gt), 124, 26);
+    doc.setFontSize(13); doc.setTextColor(232,184,75);
+    doc.setFont('helvetica','bold');
+    doc.text(rp(gt), 124, 25);
+    doc.setFontSize(8); doc.setTextColor(100,150,100);
+    doc.text(orders.length+' transaksi', 124, 32);
 
-    /* ── Table rows — pisahkan per order dengan detail item ── */
     var tableRows = orders.map(function(o, i) {
       var itemList = o.items.map(function(it){
-        return it.name + ' x' + it.qty + ' (' + rp(it.subtotal) + ')';
+        return it.name+' x'+it.qty+' ('+rp(it.subtotal)+')';
       }).join('\n');
+      var payLbl = o.payStatus==='paid'?'Lunas':o.payStatus==='dp'?'DP':'Belum Lunas';
       return [
-        String(i + 1),
+        String(i+1),
         fmtD(o.date),
-        o.customer || 'Umum',
+        (o.customer||'Umum')+(o.phone?'\n'+o.phone:''),
         itemList,
-        o.note || '-',
-        rp(o.total)
+        o.note||'-',
+        rp(o.total),
+        payLbl
       ];
     });
 
     doc.autoTable({
-      startY: 44,
-      head: [['#', 'Tanggal', 'Pelanggan', 'Detail Item', 'Catatan', 'Total']],
-      body: tableRows,
-      styles: { fontSize: 7.5, cellPadding: 3.5, font: 'helvetica', lineColor: [200,190,175], lineWidth: 0.15 },
-      headStyles: {
-        fillColor: [30, 20, 8], textColor: [232, 184, 75],
-        fontStyle: 'bold', lineWidth: 0.3, lineColor: [80, 60, 20]
+      startY:48,
+      head:[['#','Tanggal','Pelanggan','Detail Item','Catatan','Total','Status']],
+      body:tableRows,
+      styles:{fontSize:7,cellPadding:3,font:'helvetica',lineColor:[200,185,155],lineWidth:.15},
+      headStyles:{fillColor:[20,15,5],textColor:[232,184,75],fontStyle:'bold',lineWidth:.3,lineColor:[70,55,15]},
+      alternateRowStyles:{fillColor:[250,247,240]},
+      columnStyles:{
+        0:{cellWidth:7,halign:'center'},
+        1:{cellWidth:22},
+        2:{cellWidth:28},
+        3:{cellWidth:60},
+        4:{cellWidth:24},
+        5:{cellWidth:26,halign:'right'},
+        6:{cellWidth:20,halign:'center'}
       },
-      alternateRowStyles: { fillColor: [252, 248, 242] },
-      columnStyles: {
-        0: { cellWidth: 8,  halign: 'center' },
-        1: { cellWidth: 24 },
-        2: { cellWidth: 28 },
-        3: { cellWidth: 65 },
-        4: { cellWidth: 28 },
-        5: { cellWidth: 27, halign: 'right' }
-      },
-      didDrawPage: function(d) {
+      didDrawPage:function(d){
         var ph = doc.internal.pageSize.height;
         doc.setFontSize(7); doc.setTextColor(160);
-        doc.text('BrewTrack — Pencatatan Order Usaha', 14, ph - 7);
-        doc.text('Halaman ' + d.pageNumber, pageW - 20, ph - 7);
+        doc.text('TrackOrders — '+bizNm, 14, ph-7);
+        doc.text('Hal.'+d.pageNumber, pageW-18, ph-7);
       }
     });
 
-    /* ── Footer total ── */
-    var fy = doc.lastAutoTable.finalY + 6;
-    doc.setFontSize(10); doc.setTextColor(160, 120, 40); doc.setFont('helvetica', 'bold');
-    doc.text('Total Keseluruhan: ' + rp(gt), 14, fy);
+    var fy = doc.lastAutoTable.finalY + 7;
+    doc.setFontSize(10); doc.setTextColor(160,120,40); doc.setFont('helvetica','bold');
+    doc.text('Total Keseluruhan: '+rp(gt), 14, fy);
 
-    doc.save('BrewTrack_' + today() + '.pdf');
+    doc.save('TrackOrders_'+today()+'.pdf');
     toast('PDF berhasil diunduh! 📄', 's');
   } catch(e) {
-    toast('Gagal export PDF: ' + e.message, 'e');
-    console.error('PDF Error:', e);
+    toast('Gagal export PDF: '+e.message,'e');
+    console.error('PDF Error:',e);
   }
 }
 
 /* ─────────────────────────────────────────
-   EXPORT EXCEL  ← FIXED
+   EXPORT EXCEL
 ───────────────────────────────────────── */
 function xExcel() {
-  if (!orders.length) { toast('Tidak ada data untuk diekspor!', 'e'); return; }
-  if (!window.XLSX)   { toast('Library Excel belum siap, tunggu sebentar...', 'e'); return; }
-
+  if (!orders.length) { toast('Tidak ada data untuk diekspor!','e'); return; }
+  if (!window.XLSX)   { toast('Library Excel belum siap...','e'); return; }
   try {
-    var wb = XLSX.utils.book_new();
+    var wb  = XLSX.utils.book_new();
+    var biz = getActiveBiz();
+    var bizNm = biz ? biz.name : 'TrackOrders';
 
-    /* ── Sheet 1: Detail per order ── */
-    var rows = [
-      ['No','Tanggal','Pelanggan','Catatan','Menu','Qty','Harga/pcs','Subtotal','Total Order']
+    /* Sheet 1: Detail per item */
+    var rows = [['TrackOrders — '+bizNm],['Diekspor: '+new Date().toLocaleString('id-ID')],[''],
+      ['No','Tanggal','Pelanggan','Telepon','Catatan','Produk/Layanan','Qty','Harga/pcs','Subtotal Item','Diskon','Biaya Tambahan','Total Order','Status Bayar']
     ];
-    orders.forEach(function(o, oi) {
-      o.items.forEach(function(it, ii) {
+    orders.forEach(function(o,oi){
+      o.items.forEach(function(it,ii){
         rows.push([
-          ii === 0 ? oi + 1 : '',
-          ii === 0 ? fmtD(o.date) : '',
-          ii === 0 ? (o.customer || 'Umum') : '',
-          ii === 0 ? (o.note || '') : '',
-          it.name,
-          it.qty,
-          it.price,
-          it.subtotal,
-          ii === 0 ? o.total : ''
+          ii===0?oi+1:'',
+          ii===0?fmtD(o.date):'',
+          ii===0?(o.customer||'Umum'):'',
+          ii===0?(o.phone||''):'',
+          ii===0?(o.note||''):'',
+          it.name, it.qty, it.price, it.subtotal,
+          ii===0?(o.discount||0):'',
+          ii===0?(o.extraFee||0):'',
+          ii===0?o.total:'',
+          ii===0?(o.payStatus==='paid'?'Lunas':o.payStatus==='dp'?'DP':'Belum Lunas'):''
         ]);
       });
     });
-    // Grand total
-    var gt = orders.reduce(function(s,o){ return s + o.total; }, 0);
-    rows.push(['','','','','','','','TOTAL', gt]);
-
+    var gt = orders.reduce(function(s,o){ return s+o.total; },0);
+    rows.push(['','','','','','','','','','','TOTAL KESELURUHAN',gt,'']);
     var ws1 = XLSX.utils.aoa_to_sheet(rows);
-    ws1['!cols'] = [
-      {wch:5},{wch:18},{wch:18},{wch:22},{wch:28},{wch:6},{wch:12},{wch:14},{wch:14}
-    ];
+    ws1['!cols'] = [{wch:4},{wch:16},{wch:18},{wch:16},{wch:24},{wch:28},{wch:6},{wch:12},{wch:14},{wch:12},{wch:14},{wch:14},{wch:14}];
     XLSX.utils.book_append_sheet(wb, ws1, 'Detail Order');
 
-    /* ── Sheet 2: Rekap per transaksi ── */
-    var rows2 = [['No','Tanggal','Pelanggan','Item Dipesan','Catatan','Total (Rp)']];
-    orders.forEach(function(o, i) {
+    /* Sheet 2: Rekap ringkas */
+    var rows2 = [['No','Tanggal','Pelanggan','Item Dipesan','Catatan','Total (Rp)','Status']];
+    orders.forEach(function(o,i){
       rows2.push([
-        i + 1,
-        fmtD(o.date),
-        o.customer || 'Umum',
-        o.items.map(function(it){ return it.name + ' x' + it.qty; }).join('; '),
-        o.note || '',
-        o.total
+        i+1,fmtD(o.date),o.customer||'Umum',
+        o.items.map(function(it){ return it.name+' x'+it.qty; }).join('; '),
+        o.note||'',o.total,
+        o.payStatus==='paid'?'Lunas':o.payStatus==='dp'?'DP':'Belum Lunas'
       ]);
     });
-    rows2.push(['','','','','TOTAL', gt]);
+    rows2.push(['','','','','TOTAL',gt,'']);
     var ws2 = XLSX.utils.aoa_to_sheet(rows2);
-    ws2['!cols'] = [{wch:5},{wch:18},{wch:18},{wch:45},{wch:22},{wch:16}];
+    ws2['!cols'] = [{wch:4},{wch:16},{wch:18},{wch:45},{wch:22},{wch:16},{wch:14}];
     XLSX.utils.book_append_sheet(wb, ws2, 'Rekap Transaksi');
 
-    /* ── Sheet 3: Ringkasan ── */
-    var mn = today().slice(0,7);
-    var mOrd = orders.filter(function(o){ return o.date && o.date.indexOf(mn) === 0; });
-    var sm = {};
-    orders.forEach(function(o){
-      o.items.forEach(function(it){ sm[it.name] = (sm[it.name]||0) + it.qty; });
-    });
+    /* Sheet 3: Ringkasan & Top Produk */
+    var mn   = today().slice(0,7);
+    var mOrd = orders.filter(function(o){ return o.date&&o.date.startsWith(mn); });
+    var sm   = {};
+    orders.forEach(function(o){ o.items.forEach(function(it){ sm[it.name]=(sm[it.name]||0)+it.qty; }); });
     var topMenu = Object.entries(sm).sort(function(a,b){ return b[1]-a[1]; });
 
     var rows3 = [
-      ['BrewTrack — Ringkasan Usaha'],[''],
-      ['Total Transaksi',  orders.length],
-      ['Total Pemasukan',  gt],
-      ['Pemasukan Bulan '+mn, mOrd.reduce(function(s,o){ return s+o.total; },0)],
-      ['Jumlah Menu',  products.length],
-      [''],['TOP MENU TERLARIS'],['Menu','Qty Terjual']
+      ['TrackOrders — Ringkasan Usaha'],['Bisnis: '+bizNm],[''],
+      ['Total Transaksi', orders.length],
+      ['Total Pemasukan', gt],
+      ['Pemasukan Bulan '+mn, mOrd.reduce(function(s,o){return s+o.total;},0)],
+      ['Jumlah Produk/Layanan', products.length],
+      [''],['TOP PRODUK / LAYANAN TERLARIS'],['Nama Produk','Qty Terjual']
     ];
-    topMenu.slice(0,10).forEach(function(e){ rows3.push([e[0], e[1]]); });
-    rows3.push([''],['Diekspor', new Date().toLocaleString('id-ID')]);
+    topMenu.slice(0,10).forEach(function(e){ rows3.push([e[0],e[1]]); });
+    if (biz) {
+      rows3.push([''],['INFO BISNIS'],
+        ['Nama',biz.name],['Alamat',biz.addr||''],['Telepon',biz.phone||''],
+        ['Email',biz.email||''],['Instagram',biz.ig||''],['Website',biz.web||'']
+      );
+    }
+    rows3.push([''],['Diekspor',new Date().toLocaleString('id-ID')]);
     var ws3 = XLSX.utils.aoa_to_sheet(rows3);
-    ws3['!cols'] = [{wch:28},{wch:16}];
+    ws3['!cols'] = [{wch:28},{wch:20}];
     XLSX.utils.book_append_sheet(wb, ws3, 'Ringkasan');
 
-    XLSX.writeFile(wb, 'BrewTrack_' + today() + '.xlsx');
-    toast('Excel berhasil diunduh! 📊', 's');
+    XLSX.writeFile(wb, 'TrackOrders_'+today()+'.xlsx');
+    toast('Excel berhasil diunduh! 📊','s');
   } catch(e) {
-    toast('Gagal export Excel: ' + e.message, 'e');
-    console.error('Excel Error:', e);
+    toast('Gagal export Excel: '+e.message,'e');
+    console.error('Excel Error:',e);
   }
+}
+
+/* ─────────────────────────────────────────
+   EXPORT / IMPORT JSON
+───────────────────────────────────────── */
+function xJSON() {
+  var payload = {
+    app: 'TrackOrders',
+    version: '2.0',
+    exportedAt: new Date().toISOString(),
+    orders: orders,
+    products: products,
+    businesses: businesses,
+    activeBiz: activeBiz
+  };
+  var blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
+  var url  = URL.createObjectURL(blob);
+  var a    = document.createElement('a');
+  a.href   = url;
+  a.download = 'TrackOrders_backup_'+today()+'.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('Backup JSON berhasil diunduh! 💾','s');
+}
+
+function importJSON() {
+  document.getElementById('json-file-input').click();
+}
+
+function handleJSONImport(e) {
+  var file = e.target.files[0];
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(ev) {
+    try {
+      var data = JSON.parse(ev.target.result);
+      if (!data.orders && !data.products) {
+        toast('File JSON tidak valid!','e'); return;
+      }
+      confirmDlg(
+        'Import akan MENGGABUNGKAN data backup dengan data saat ini. Lanjutkan?',
+        function() {
+          // Merge orders (hindari duplikat berdasarkan id)
+          var existingIds = new Set(orders.map(function(o){return o.id;}));
+          (data.orders||[]).forEach(function(o){
+            if (!existingIds.has(o.id)) { orders.push(o); existingIds.add(o.id); }
+          });
+          // Merge products
+          var existingPids = new Set(products.map(function(p){return p.id;}));
+          (data.products||[]).forEach(function(p){
+            if (!existingPids.has(p.id)) { products.push(p); existingPids.add(p.id); }
+          });
+          // Merge businesses
+          var existingBids = new Set(businesses.map(function(b){return b.id;}));
+          (data.businesses||[]).forEach(function(b){
+            if (!existingBids.has(b.id)) { businesses.push(b); existingBids.add(b.id); }
+          });
+          save();
+          refreshDash();
+          toast('Data berhasil diimpor! 🎉','s');
+        },
+        '📥 Import JSON'
+      );
+    } catch(err) {
+      toast('Gagal membaca file JSON: '+err.message,'e');
+    }
+    e.target.value = ''; // reset input
+  };
+  reader.readAsText(file);
 }
 
 /* ─────────────────────────────────────────
    PRODUK / MENU
 ───────────────────────────────────────── */
 function renderProds() {
+  var q = (document.getElementById('prod-search')||{value:''}).value.toLowerCase();
   var g = document.getElementById('prod-grid');
-  if (!products.length) {
-    g.innerHTML = '<div class="empty" style="grid-column:1/-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><p>Belum ada menu. Tambahkan menu pertama!</p></div>';
+  var list = products.filter(function(p){
+    return !q || p.name.toLowerCase().includes(q) || (p.cat||'').toLowerCase().includes(q);
+  });
+  if (!list.length) {
+    g.innerHTML = '<div class="empty" style="grid-column:1/-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><p>Tidak ada produk ditemukan.</p></div>';
     return;
   }
-  g.innerHTML = products.map(function(p) {
-    return '<div class="prod-card">' +
-      '<div class="p-emoji">' + (p.emoji||'🛍️') + '</div>' +
-      '<div class="p-name">' + esc(p.name) + '</div>' +
-      '<div class="p-cat">' + esc(p.cat||'—') + '</div>' +
-      '<div class="p-price">' + rp(p.price) + '</div>' +
-      (p.stok !== undefined ? '<div style="font-size:.63rem;color:var(--t3)">Stok: <b style="color:var(--t2)">' + p.stok + '</b></div>' : '') +
-      '<div class="p-acts">' +
-        '<button class="btn btn-ghost btn-xs" onclick="editProd(\'' + p.id + '\')">' +
-          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Edit' +
-        '</button>' +
-        '<button class="btn btn-danger btn-xs" onclick="hapusProd(\'' + p.id + '\')">' +
-          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M9 6V4h6v2"/></svg>Hapus' +
-        '</button>' +
-      '</div>' +
+  g.innerHTML = list.map(function(p) {
+    var stokColor = p.stok <= 5 ? 'var(--red)' : p.stok <= 15 ? 'var(--gl)' : 'var(--t2)';
+    return '<div class="prod-card">'+
+      '<div class="p-emoji">'+(p.emoji||'📦')+'</div>'+
+      '<div class="p-name">'+esc(p.name)+'</div>'+
+      '<div class="p-cat">'+esc(p.cat||'—')+(p.unit?' · '+esc(p.unit):'')+'</div>'+
+      '<div class="p-price">'+rp(p.price)+'</div>'+
+      (p.desc?'<div style="font-size:.63rem;color:var(--t3);line-height:1.4">'+esc(p.desc)+'</div>':'')+
+      (p.stok!==undefined?'<div style="font-size:.63rem;color:var(--t3)">Stok: <b style="color:'+stokColor+'">'+p.stok+'</b>'+(p.stok<=5?' ⚠️':'')+'</div>':'')+
+      '<div class="p-acts">'+
+        '<button class="btn btn-ghost btn-xs" onclick="editProd(\''+p.id+'\')">'+
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Edit'+
+        '</button>'+
+        '<button class="btn btn-danger btn-xs" onclick="hapusProd(\''+p.id+'\')">'+
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M9 6V4h6v2"/></svg>'+
+        '</button>'+
+      '</div>'+
     '</div>';
   }).join('');
 }
 
 function saveProd() {
   var name  = document.getElementById('pf-name').value.trim();
-  var price = parseInt(document.getElementById('pf-price').value) || 0;
-  var emoji = document.getElementById('pf-emoji').value.trim() || '☕';
+  var price = parseInt(document.getElementById('pf-price').value)||0;
+  var emoji = document.getElementById('pf-emoji').value.trim()||'📦';
   var cat   = document.getElementById('pf-cat').value.trim();
-  var stok  = parseInt(document.getElementById('pf-stok').value) || 0;
+  var stok  = parseInt(document.getElementById('pf-stok').value)||0;
+  var unit  = document.getElementById('pf-unit').value.trim();
+  var desc  = document.getElementById('pf-desc').value.trim();
   var eid   = document.getElementById('pf-id').value;
 
-  if (!name)  { toast('Nama menu wajib diisi!', 'e'); return; }
-  if (price <= 0) { toast('Harga harus lebih dari 0!', 'e'); return; }
+  if (!name)      { toast('Nama produk wajib diisi!','e'); return; }
+  if (price <= 0) { toast('Harga harus lebih dari 0!','e'); return; }
 
   if (eid) {
-    var idx = products.findIndex(function(p){ return p.id === eid; });
-    if (idx > -1) products[idx] = Object.assign({}, products[idx], {name,price,emoji,cat,stok});
-    toast('Menu berhasil diperbarui ✅', 's');
+    var idx = products.findIndex(function(p){ return p.id===eid; });
+    if (idx > -1) products[idx] = Object.assign({},products[idx],{name,price,emoji,cat,stok,unit,desc});
+    toast('Produk berhasil diperbarui ✅','s');
   } else {
-    var dupCheck = products.find(function(p){ return p.name.toLowerCase() === name.toLowerCase(); });
-    if (dupCheck) { toast('Nama menu sudah ada!', 'e'); return; }
-    products.push({ id: uid(), name, price, emoji, cat, stok });
-    toast('Menu berhasil ditambahkan! 🎉', 's');
+    if (products.find(function(p){ return p.name.toLowerCase()===name.toLowerCase(); })) {
+      toast('Nama produk sudah ada!','e'); return;
+    }
+    products.push({id:uid(),name,price,emoji,cat,stok,unit,desc});
+    toast('Produk berhasil ditambahkan! 🎉','s');
   }
-  save();
-  cancelProd();
-  renderProds();
+  save(); cancelProd(); renderProds();
 }
 
 function editProd(id) {
-  var p = products.find(function(x){ return x.id === id; });
+  var p = products.find(function(x){ return x.id===id; });
   if (!p) return;
   document.getElementById('pf-name').value  = p.name;
   document.getElementById('pf-price').value = p.price;
-  document.getElementById('pf-emoji').value = p.emoji || '';
-  document.getElementById('pf-cat').value   = p.cat   || '';
-  document.getElementById('pf-stok').value  = p.stok  !== undefined ? p.stok : '';
+  document.getElementById('pf-emoji').value = p.emoji||'';
+  document.getElementById('pf-cat').value   = p.cat||'';
+  document.getElementById('pf-stok').value  = p.stok!==undefined?p.stok:'';
+  document.getElementById('pf-unit').value  = p.unit||'';
+  document.getElementById('pf-desc').value  = p.desc||'';
   document.getElementById('pf-id').value    = p.id;
   document.getElementById('pf-ttl').innerHTML =
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;color:var(--gd)"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Edit Menu';
-  document.getElementById('prod-form').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;color:var(--gd)"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Edit Produk';
+  document.getElementById('prod-form').scrollIntoView({behavior:'smooth',block:'start'});
   setTimeout(function(){ document.getElementById('pf-name').focus(); }, 300);
 }
 
 function cancelProd() {
-  ['pf-name','pf-price','pf-emoji','pf-cat','pf-stok','pf-id'].forEach(function(id){
-    document.getElementById(id).value = '';
+  ['pf-name','pf-price','pf-emoji','pf-cat','pf-stok','pf-unit','pf-desc','pf-id'].forEach(function(id){
+    document.getElementById(id).value='';
   });
   document.getElementById('pf-ttl').innerHTML =
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;color:var(--gd)"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Tambah Menu Baru';
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;color:var(--gd)"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Tambah Produk / Layanan Baru';
 }
 
 function hapusProd(id) {
-  var p = products.find(function(x){ return x.id === id; });
-  confirm('Hapus menu "' + (p ? p.name : '') + '"?', function() {
-    products = products.filter(function(x){ return x.id !== id; });
+  var p = products.find(function(x){ return x.id===id; });
+  confirmDlg('Hapus produk "'+((p&&p.name)||'')+'"?', function() {
+    products = products.filter(function(x){ return x.id!==id; });
     save(); renderProds();
-    toast('Menu dihapus', 's');
-  }, '🗑️ Hapus Menu');
+    toast('Produk dihapus','s');
+  }, '🗑️ Hapus Produk');
 }
 
 /* ─────────────────────────────────────────
    LAPORAN PAGE
 ───────────────────────────────────────── */
 function renderLaporan() {
-  /* Stat cards */
   var td = today(), mn = td.slice(0,7);
-  var tOrd = orders.filter(function(o){ return o.date === td; });
-  var mOrd = orders.filter(function(o){ return o.date && o.date.indexOf(mn) === 0; });
+  var tOrd = orders.filter(function(o){ return o.date===td; });
+  var mOrd = orders.filter(function(o){ return o.date&&o.date.startsWith(mn); });
   var gt   = orders.reduce(function(s,o){ return s+o.total; },0);
   var mgt  = mOrd.reduce(function(s,o){ return s+o.total; },0);
 
   document.getElementById('lap-stats').innerHTML =
-    statCard('Total Semua', gt, orders.length + ' transaksi') +
-    statCard('Bulan Ini',   mgt, mOrd.length + ' transaksi') +
-    statCard('Hari Ini',    tOrd.reduce(function(s,o){return s+o.total;},0), tOrd.length + ' transaksi') +
-    statCard('Jumlah Menu', products.length, 'produk terdaftar', true);
+    statCard('Total Semua',gt,orders.length+' transaksi')+
+    statCard('Bulan Ini',mgt,mOrd.length+' transaksi')+
+    statCard('Hari Ini',tOrd.reduce(function(s,o){return s+o.total;},0),tOrd.length+' transaksi')+
+    statCard('Produk',products.length,'terdaftar',true);
 
-  /* Top menu */
   var sm = {};
-  orders.forEach(function(o){
-    o.items.forEach(function(it){ sm[it.name] = (sm[it.name]||0) + it.qty; });
-  });
+  orders.forEach(function(o){ o.items.forEach(function(it){ sm[it.name]=(sm[it.name]||0)+it.qty; }); });
   var top5 = Object.entries(sm).sort(function(a,b){ return b[1]-a[1]; }).slice(0,5);
   var maxQ = top5.length ? top5[0][1] : 1;
   var el   = document.getElementById('top-menu');
   if (!top5.length) {
-    el.innerHTML = '<div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg><p>Belum ada data penjualan</p></div>';
-    return;
+    el.innerHTML = '<div class="empty"><p>Belum ada data penjualan</p></div>'; return;
   }
-  el.innerHTML = top5.map(function(e, i) {
-    var pct = Math.round((e[1] / maxQ) * 100);
-    var prod = products.find(function(p){ return p.name === e[0]; });
-    var emoji = (prod && prod.emoji) || '🛒';
-    return '<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">' +
-      '<div style="width:28px;height:28px;border-radius:8px;background:var(--s3);display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0">' + emoji + '</div>' +
-      '<div style="flex:1;min-width:0">' +
-        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">' +
-          '<span style="font-size:.8rem;font-weight:700;color:var(--tx);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + esc(e[0]) + '</span>' +
-          '<span style="font-size:.72rem;color:var(--gl);font-weight:700;flex-shrink:0;margin-left:8px">' + e[1] + ' terjual</span>' +
-        '</div>' +
-        '<div style="height:5px;background:var(--s3);border-radius:3px;overflow:hidden">' +
-          '<div style="height:100%;width:' + pct + '%;background:linear-gradient(90deg,var(--gl),var(--gd));border-radius:3px;transition:width .4s ease"></div>' +
-        '</div>' +
-      '</div>' +
+  el.innerHTML = top5.map(function(e,i) {
+    var pct  = Math.round((e[1]/maxQ)*100);
+    var prod = products.find(function(p){ return p.name===e[0]; });
+    var emoji= (prod&&prod.emoji)||'📦';
+    return '<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">'+
+      '<div style="width:26px;height:26px;border-radius:7px;background:var(--s3);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0">'+emoji+'</div>'+
+      '<div style="flex:1;min-width:0">'+
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px">'+
+          '<span style="font-size:.8rem;font-weight:700;color:var(--tx);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(e[0])+'</span>'+
+          '<span style="font-size:.72rem;color:var(--gl);font-weight:700;flex-shrink:0;margin-left:8px">'+e[1]+' terjual</span>'+
+        '</div>'+
+        '<div class="prog-bar"><div class="prog-fill" style="width:'+pct+'%"></div></div>'+
+      '</div>'+
     '</div>';
   }).join('');
 }
 
 function statCard(lbl, val, sub, plain) {
-  return '<div class="stat-card">' +
-    '<div class="sc-lbl">' + lbl + '</div>' +
-    '<div class="sc-val' + (plain ? ' plain' : '') + '">' + (plain ? val : rp(val)) + '</div>' +
-    '<div class="sc-sub">' + sub + '</div>' +
+  return '<div class="stat-card">'+
+    '<div class="sc-lbl">'+lbl+'</div>'+
+    '<div class="sc-val'+(plain?' plain':'')+'">'+( plain?val:rp(val))+'</div>'+
+    '<div class="sc-sub">'+sub+'</div>'+
   '</div>';
 }
+
+/* ─────────────────────────────────────────
+   BUSINESSES (SETTINGS)
+───────────────────────────────────────── */
+function renderSettings() {
+  renderBizList();
+  var tgl = document.getElementById('theme-toggle');
+  if (tgl) tgl.checked = (curTheme === 'dark');
+}
+
+function renderBizList() {
+  var el = document.getElementById('biz-list');
+  if (!businesses.length) {
+    el.innerHTML = '<div style="font-size:.8rem;color:var(--t3);padding:8px 0">Belum ada bisnis. Tambahkan profil bisnis Anda!</div>';
+    return;
+  }
+  el.innerHTML = businesses.map(function(b) {
+    var isActive = b.id === activeBiz;
+    return '<div class="biz-card'+(isActive?' active-biz':'')+'" onclick="setActiveBiz(\''+b.id+'\')">'+
+      (isActive ? '<div class="active-badge">✓ Aktif</div>' : '')+
+      '<div class="biz-emoji">'+(b.emoji||'🏪')+'</div>'+
+      '<div class="biz-info">'+
+        '<div class="biz-nm">'+esc(b.name)+'</div>'+
+        '<div class="biz-addr">'+(b.type?'<span style="color:var(--gl)">'+esc(b.type)+'</span> · ':'')+esc(b.addr||'Alamat belum diisi')+'</div>'+
+        (b.bio?'<div style="font-size:.65rem;color:var(--t3);margin-top:3px;font-style:italic">'+esc(b.bio)+'</div>':'')+
+        '<div class="biz-acts">'+
+          '<button class="btn btn-ghost btn-xs" onclick="event.stopPropagation();editBiz(\''+b.id+'\')">✏️ Edit</button>'+
+          '<button class="btn btn-danger btn-xs" onclick="event.stopPropagation();hapusBiz(\''+b.id+'\')">🗑️</button>'+
+        '</div>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+
+function setActiveBiz(id) {
+  activeBiz = id;
+  localStorage.setItem('to_active_biz', id);
+  renderBizList();
+  refreshHdrBiz();
+  toast('Bisnis aktif diubah! ✅','s');
+}
+
+function openBizModal(id) {
+  ['biz-name','biz-emoji','biz-type','biz-addr','biz-phone','biz-email','biz-ig','biz-web','biz-bio','biz-edit-id']
+    .forEach(function(fid){ document.getElementById(fid).value=''; });
+  document.getElementById('mbiz-ttl').textContent = '➕ Tambah Bisnis';
+  if (id) {
+    var b = businesses.find(function(x){ return x.id===id; });
+    if (b) {
+      document.getElementById('biz-name').value    = b.name||'';
+      document.getElementById('biz-emoji').value   = b.emoji||'';
+      document.getElementById('biz-type').value    = b.type||'';
+      document.getElementById('biz-addr').value    = b.addr||'';
+      document.getElementById('biz-phone').value   = b.phone||'';
+      document.getElementById('biz-email').value   = b.email||'';
+      document.getElementById('biz-ig').value      = b.ig||'';
+      document.getElementById('biz-web').value     = b.web||'';
+      document.getElementById('biz-bio').value     = b.bio||'';
+      document.getElementById('biz-edit-id').value = b.id;
+      document.getElementById('mbiz-ttl').textContent = '✏️ Edit Bisnis';
+    }
+  }
+  openModal('modal-biz');
+  setTimeout(function(){ document.getElementById('biz-name').focus(); }, 200);
+}
+
+function editBiz(id) { openBizModal(id); }
+
+function saveBiz() {
+  var name  = document.getElementById('biz-name').value.trim();
+  if (!name) { toast('Nama bisnis wajib diisi!','e'); return; }
+  var biz = {
+    name:  name,
+    emoji: document.getElementById('biz-emoji').value.trim()||'🏪',
+    type:  document.getElementById('biz-type').value.trim(),
+    addr:  document.getElementById('biz-addr').value.trim(),
+    phone: document.getElementById('biz-phone').value.trim(),
+    email: document.getElementById('biz-email').value.trim(),
+    ig:    document.getElementById('biz-ig').value.trim(),
+    web:   document.getElementById('biz-web').value.trim(),
+    bio:   document.getElementById('biz-bio').value.trim()
+  };
+  var eid = document.getElementById('biz-edit-id').value;
+  if (eid) {
+    var idx = businesses.findIndex(function(b){ return b.id===eid; });
+    if (idx > -1) { businesses[idx] = Object.assign({},businesses[idx],biz); }
+    toast('Bisnis diperbarui ✅','s');
+  } else {
+    biz.id = uid();
+    businesses.push(biz);
+    if (!activeBiz) { activeBiz = biz.id; localStorage.setItem('to_active_biz',biz.id); }
+    toast('Bisnis berhasil ditambahkan! 🎉','s');
+  }
+  save(); closeModal('modal-biz'); renderBizList(); refreshHdrBiz();
+}
+
+function hapusBiz(id) {
+  var b = businesses.find(function(x){ return x.id===id; });
+  confirmDlg('Hapus bisnis "'+((b&&b.name)||'')+'"?', function() {
+    businesses = businesses.filter(function(x){ return x.id!==id; });
+    if (activeBiz === id) {
+      activeBiz = businesses.length ? businesses[0].id : '';
+      localStorage.setItem('to_active_biz', activeBiz);
+    }
+    save(); renderBizList(); refreshHdrBiz();
+    toast('Bisnis dihapus','s');
+  }, '🗑️ Hapus Bisnis');
+}
+
+function resetAllData() {
+  confirmDlg('SEMUA data (order, produk, bisnis) akan dihapus permanen. Ini tidak bisa dibatalkan!', function() {
+    orders = []; products = []; businesses = []; activeBiz = '';
+    localStorage.removeItem('to_active_biz');
+    save(); renderSettings(); refreshDash();
+    toast('Semua data direset!','s');
+  }, '⚠️ Reset Total Data');
+}
+
+/* ─────────────────────────────────────────
+   CLOSE MODAL on backdrop click
+───────────────────────────────────────── */
+document.querySelectorAll('.modal-bg').forEach(function(mb){
+  mb.addEventListener('click', function(e){
+    if (e.target === mb) mb.classList.remove('open');
+  });
+});
 
 /* ─────────────────────────────────────────
    INIT
@@ -1441,6 +2014,7 @@ function statCard(lbl, val, sub, plain) {
 document.getElementById('hdr-date').textContent =
   new Date().toLocaleDateString('id-ID',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
 
+refreshHdrBiz();
 refreshDash();
 initForm();
 </script>
