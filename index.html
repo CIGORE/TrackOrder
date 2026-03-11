@@ -95,72 +95,85 @@ input[type=number]::-webkit-inner-spin-button{opacity:.5}
 }
 @media(min-width:768px){.top-nav{display:block}}
 
+/* justify-content:space-between → left group | right group */
 .top-nav-inner{
-  display:flex;align-items:center;
-  padding:0 24px;height:56px;gap:0;
-  width:100%;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 20px;height:54px;width:100%;min-width:0;
 }
 
-/* Logo (fixed left) */
-.tn-logo{display:flex;align-items:center;gap:8px;flex-shrink:0;margin-right:16px}
-.tn-logo-icon{width:30px;height:30px;border-radius:8px;flex-shrink:0;
+/* ── LEFT GROUP: logo + nav buttons, all in one row */
+.tn-left{display:flex;align-items:center;gap:0;flex-shrink:1;min-width:0;overflow:hidden;}
+
+/* Logo */
+.tn-logo{
+  display:flex;align-items:center;gap:7px;
+  flex-shrink:0;padding-right:10px;
+  border-right:1px solid var(--bd3);margin-right:8px;
+}
+.tn-logo-icon{
+  width:28px;height:28px;border-radius:7px;flex-shrink:0;
   background:linear-gradient(135deg,var(--gl),var(--gdk));
-  display:flex;align-items:center;justify-content:center;box-shadow:var(--shg)}
-.tn-logo-icon svg{width:15px;height:15px;color:#fff}
-.tn-logo-txt{line-height:1.2;min-width:0}
-.tn-logo-name{font-family:'Playfair Display',serif;font-size:.92rem;font-weight:800;
-  color:var(--gl);letter-spacing:.3px;display:block;white-space:nowrap}
-.tn-logo-biz{font-size:.56rem;color:var(--gd);font-weight:600;display:block;
-  max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:1px}
-
-/* Nav links — center, no overflow hidden, items never shrink below their text */
-.tn-links{
-  display:flex;align-items:center;gap:2px;
-  flex:1;justify-content:center;
-  min-width:0;
+  display:flex;align-items:center;justify-content:center;box-shadow:var(--shg);
 }
+.tn-logo-icon svg{width:14px;height:14px;color:#fff}
+.tn-logo-txt{line-height:1.15}
+.tn-logo-name{
+  font-family:'Playfair Display',serif;font-size:.88rem;font-weight:800;
+  color:var(--gl);letter-spacing:.2px;display:block;white-space:nowrap;
+}
+.tn-logo-biz{
+  font-size:.53rem;color:var(--gd);font-weight:600;
+  display:block;white-space:nowrap;margin-top:1px;
+}
+@media(min-width:768px) and (max-width:960px){.tn-logo-biz{display:none}}
+
+/* Nav links */
+.tn-links{display:flex;align-items:center;gap:1px;flex-shrink:1;min-width:0;}
 .tn-btn{
-  display:flex;align-items:center;gap:4px;
-  padding:6px 10px;border-radius:7px;border:none;
+  display:inline-flex;align-items:center;gap:4px;
+  padding:6px 9px;border-radius:7px;border:none;
   background:transparent;cursor:pointer;
-  font-size:.74rem;font-weight:600;color:var(--t3);
+  font-size:.73rem;font-weight:600;color:var(--t3);
   transition:all .18s;white-space:nowrap;position:relative;
   font-family:inherit;flex-shrink:0;
 }
 .tn-btn svg{width:13px;height:13px;flex-shrink:0}
-/* Hide icons on medium screens to save space, show only text */
-@media(min-width:768px) and (max-width:1059px){
+/* medium desktop: hide icons except CTA */
+@media(min-width:768px) and (max-width:1080px){
   .tn-btn svg{display:none}
-  .tn-btn{padding:6px 9px;font-size:.72rem}
+  .tn-btn.tn-order svg{display:inline-flex!important}
+  .tn-btn{padding:6px 8px;font-size:.71rem}
 }
 .tn-btn:hover{background:var(--s2);color:var(--t2)}
 .tn-btn.active{background:rgba(201,151,58,.1);color:var(--gl)}
-[data-theme="light"] .tn-btn.active{background:rgba(180,120,20,.08);color:var(--gdk)}
+[data-theme="light"] .tn-btn.active{background:rgba(180,120,20,.09);color:var(--gdk)}
 .tn-btn.active::after{
   content:'';position:absolute;bottom:-1px;left:50%;
   transform:translateX(-50%);
-  width:18px;height:2px;border-radius:1px;background:var(--gl)
+  width:18px;height:2px;border-radius:1px;background:var(--gl);
 }
-/* "Catat Order" CTA button — always show icon */
 .tn-btn.tn-order{
   background:linear-gradient(135deg,var(--gl),var(--gdk));
-  color:#150e00;box-shadow:0 2px 10px rgba(201,151,58,.25);
-  font-weight:700;padding:6px 12px;margin:0 3px;
+  color:#150e00;font-weight:700;padding:5px 11px;margin:0 2px;
+  box-shadow:0 2px 8px rgba(201,151,58,.28);
 }
-.tn-btn.tn-order svg{display:flex!important}
 .tn-btn.tn-order:hover{filter:brightness(1.07);transform:translateY(-1px)}
 .tn-btn.tn-order.active{background:linear-gradient(135deg,var(--gl),var(--gdk));color:#150e00}
 .tn-btn.tn-order.active::after{display:none}
 
-/* Right controls (fixed right) */
-.tn-right{display:flex;align-items:center;gap:6px;flex-shrink:0;margin-left:16px}
-.tn-date{display:flex;align-items:center;gap:4px;
+/* ── RIGHT GROUP: date + theme toggle */
+.tn-right{
+  display:flex;align-items:center;gap:6px;
+  flex-shrink:0;margin-left:8px;
+}
+.tn-date{
+  display:flex;align-items:center;gap:4px;
   background:var(--s2);border:1px solid var(--bd2);
   border-radius:7px;padding:5px 9px;
-  font-size:.62rem;color:var(--t2);white-space:nowrap}
+  font-size:.6rem;color:var(--t2);white-space:nowrap;
+}
 .tn-date svg{width:10px;height:10px;flex-shrink:0}
-/* Hide date label on smaller desktop to save space */
-@media(min-width:768px) and (max-width:900px){.tn-date{display:none}}
+@media(min-width:768px) and (max-width:960px){.tn-date{display:none}}
 
 /* Dashboard header strip — REMOVED (was causing duplicate TrackOrders display) */
 
@@ -499,46 +512,47 @@ table.dtbl{width:100%;border-collapse:collapse;min-width:420px}
 <!-- ══ DESKTOP TOP NAV (≥768px) ════════════════════════════════════ -->
 <nav class="top-nav">
   <div class="top-nav-inner">
-    <!-- Logo -->
-    <div class="tn-logo">
-      <div class="tn-logo-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-        </svg>
+    <!-- LEFT: logo + nav links together -->
+    <div class="tn-left">
+      <div class="tn-logo">
+        <div class="tn-logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+          </svg>
+        </div>
+        <div class="tn-logo-txt">
+          <span class="tn-logo-name">TrackOrders</span>
+          <span class="tn-logo-biz" id="tn-biz-name">Pencatatan Order Universal</span>
+        </div>
       </div>
-      <div class="tn-logo-txt">
-        <span class="tn-logo-name">TrackOrders</span>
-        <span class="tn-logo-biz" id="tn-biz-name">Pencatatan Order Universal</span>
+      <div class="tn-links">
+        <button class="tn-btn active" id="tn-db" onclick="goPage('dashboard',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+          Beranda
+        </button>
+        <button class="tn-btn" id="tn-rk" onclick="goPage('rekap',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          Rekap
+        </button>
+        <button class="tn-btn tn-order" id="tn-or" onclick="goPage('order',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Catat Order
+        </button>
+        <button class="tn-btn" id="tn-pr" onclick="goPage('produk',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+          Produk
+        </button>
+        <button class="tn-btn" id="tn-lp" onclick="goPage('laporan',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Laporan
+        </button>
+        <button class="tn-btn" id="tn-st" onclick="goPage('setting',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          Setting
+        </button>
       </div>
     </div>
-    <!-- Nav links (center) -->
-    <div class="tn-links">
-      <button class="tn-btn active" id="tn-db" onclick="goPage('dashboard',this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
-        Beranda
-      </button>
-      <button class="tn-btn" id="tn-rk" onclick="goPage('rekap',this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
-        Rekap
-      </button>
-      <button class="tn-btn tn-order" id="tn-or" onclick="goPage('order',this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        Catat Order
-      </button>
-      <button class="tn-btn" id="tn-pr" onclick="goPage('produk',this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
-        Produk
-      </button>
-      <button class="tn-btn" id="tn-lp" onclick="goPage('laporan',this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-        Laporan
-      </button>
-      <button class="tn-btn" id="tn-st" onclick="goPage('setting',this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-        Setting
-      </button>
-    </div>
-    <!-- Right: date + theme -->
+    <!-- RIGHT: date + theme toggle -->
     <div class="tn-right">
       <div class="tn-date">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
