@@ -86,7 +86,7 @@ input[type=number]::-webkit-inner-spin-button{opacity:.5}
    Full navigation bar for ≥768px screens — hidden on mobile
 ══════════════════════════════════════════════════════════════════════ */
 .top-nav{
-  display:none; /* hidden on mobile */
+  display:none;
   position:sticky;top:0;z-index:300;
   background:var(--hbg);backdrop-filter:blur(24px) saturate(180%);
   -webkit-backdrop-filter:blur(24px) saturate(180%);
@@ -95,97 +95,67 @@ input[type=number]::-webkit-inner-spin-button{opacity:.5}
 }
 @media(min-width:768px){.top-nav{display:block}}
 
-/* Inner container aligns with .wrap max-width */
 .top-nav-inner{
   max-width:860px;margin:0 auto;
-  display:grid;
-  grid-template-columns:auto 1fr auto;
-  align-items:center;
-  gap:0;
-  padding:0 13px;
-  min-height:60px;
+  display:flex;align-items:center;
+  padding:0 13px;height:58px;gap:0;
 }
 
-/* Logo (left column) */
-.tn-logo{display:flex;align-items:center;gap:9px;flex-shrink:0;margin-right:16px}
-.tn-logo-icon{width:34px;height:34px;border-radius:10px;flex-shrink:0;
+/* Logo (fixed left) */
+.tn-logo{display:flex;align-items:center;gap:9px;flex-shrink:0;margin-right:20px;min-width:0}
+.tn-logo-icon{width:32px;height:32px;border-radius:9px;flex-shrink:0;
   background:linear-gradient(135deg,var(--gl),var(--gdk));
   display:flex;align-items:center;justify-content:center;box-shadow:var(--shg)}
-.tn-logo-icon svg{width:17px;height:17px;color:#fff}
-.tn-logo-txt{line-height:1.2}
-.tn-logo-name{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:800;
-  color:var(--gl);letter-spacing:.3px;display:block}
-.tn-logo-biz{font-size:.6rem;color:var(--gd);font-weight:600;display:block;
-  max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:1px}
+.tn-logo-icon svg{width:16px;height:16px;color:#fff}
+.tn-logo-txt{line-height:1.2;min-width:0}
+.tn-logo-name{font-family:'Playfair Display',serif;font-size:.98rem;font-weight:800;
+  color:var(--gl);letter-spacing:.3px;display:block;white-space:nowrap}
+.tn-logo-biz{font-size:.58rem;color:var(--gd);font-weight:600;display:block;
+  max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:1px}
 
-/* Nav links (center column — scrollable if needed) */
+/* Nav links (flex-grow center) */
 .tn-links{
-  display:flex;align-items:center;gap:2px;
-  justify-content:center;
-  overflow-x:auto;scrollbar-width:none;
-  padding:0 8px;
+  display:flex;align-items:center;gap:1px;
+  flex:1;justify-content:center;
+  overflow:hidden;
 }
-.tn-links::-webkit-scrollbar{display:none}
 .tn-btn{
   display:flex;align-items:center;gap:5px;
-  padding:7px 13px;border-radius:8px;border:none;
+  padding:6px 11px;border-radius:8px;border:none;
   background:transparent;cursor:pointer;
-  font-size:.78rem;font-weight:600;color:var(--t3);
+  font-size:.76rem;font-weight:600;color:var(--t3);
   transition:all .18s;white-space:nowrap;position:relative;
-  font-family:inherit;
+  font-family:inherit;flex-shrink:0;
 }
-.tn-btn svg{width:14px;height:14px;flex-shrink:0}
+.tn-btn svg{width:13px;height:13px;flex-shrink:0}
 .tn-btn:hover{background:var(--s2);color:var(--t2)}
 .tn-btn.active{background:rgba(201,151,58,.1);color:var(--gl)}
 [data-theme="light"] .tn-btn.active{background:rgba(180,120,20,.08);color:var(--gdk)}
 .tn-btn.active::after{
   content:'';position:absolute;bottom:-1px;left:50%;
   transform:translateX(-50%);
-  width:22px;height:2px;border-radius:1px;background:var(--gl)
+  width:20px;height:2px;border-radius:1px;background:var(--gl)
 }
-/* "Catat Order" highlight button */
+/* "Catat Order" CTA button */
 .tn-btn.tn-order{
   background:linear-gradient(135deg,var(--gl),var(--gdk));
-  color:#150e00;box-shadow:0 2px 12px rgba(201,151,58,.3);
-  font-weight:700;padding:7px 15px;
+  color:#150e00;box-shadow:0 2px 10px rgba(201,151,58,.3);
+  font-weight:700;padding:6px 13px;margin:0 4px;
 }
-.tn-btn.tn-order:hover{filter:brightness(1.07);transform:translateY(-1px)}
+.tn-btn.tn-order:hover{filter:brightness(1.07);transform:translateY(-1px);box-shadow:var(--shg)}
 .tn-btn.tn-order.active{background:linear-gradient(135deg,var(--gl),var(--gdk));color:#150e00}
 .tn-btn.tn-order.active::after{display:none}
 
-/* Right controls (right column) */
-.tn-right{display:flex;align-items:center;gap:7px;flex-shrink:0;margin-left:16px}
+/* Right controls (fixed right) */
+.tn-right{display:flex;align-items:center;gap:6px;flex-shrink:0;margin-left:20px}
 .tn-date{display:flex;align-items:center;gap:5px;
   background:var(--s2);border:1px solid var(--bd2);
-  border-radius:7px;padding:5px 10px;
-  font-size:.65rem;color:var(--t2);white-space:nowrap}
-.tn-date svg{width:11px;height:11px;flex-shrink:0}
+  border-radius:7px;padding:5px 9px;
+  font-size:.63rem;color:var(--t2);white-space:nowrap}
+.tn-date svg{width:10px;height:10px;flex-shrink:0}
 
-/* Dashboard header strip — shown on desktop aligned with content */
-.dash-strip{
-  display:none;
-}
-@media(min-width:768px){
-  .dash-strip{
-    display:flex;align-items:center;justify-content:space-between;
-    max-width:860px;margin:0 auto;
-    padding:16px 13px 0;
-    gap:12px;flex-wrap:wrap;
-  }
-}
-.ds-identity{display:flex;align-items:center;gap:10px}
-.ds-icon{width:36px;height:36px;border-radius:10px;flex-shrink:0;
-  background:linear-gradient(135deg,var(--gl),var(--gdk));
-  display:flex;align-items:center;justify-content:center;box-shadow:var(--shg)}
-.ds-icon svg{width:17px;height:17px;color:#fff}
-.ds-txt{line-height:1.25}
-.ds-app{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:800;color:var(--gl)}
-.ds-biz{font-size:.65rem;color:var(--gd);font-weight:600;display:block;margin-top:1px}
-.ds-right{display:flex;align-items:center;gap:8px}
-.ds-date{display:flex;align-items:center;gap:5px;
-  background:var(--s1);border:1px solid var(--bd2);
-  border-radius:8px;padding:6px 11px;font-size:.67rem;color:var(--t2)}
-.ds-date svg{width:11px;height:11px;flex-shrink:0}
+/* Dashboard header strip — REMOVED (was causing duplicate TrackOrders display) */
+
 
 /* ══ LAYOUT ══════════════════════════════════════════════════════════ */
 .wrap{max-width:860px;margin:0 auto;padding:16px 13px 4px}
@@ -598,33 +568,6 @@ table.dtbl{width:100%;border-collapse:collapse;min-width:420px}
     </button>
   </div>
 </header>
-
-<!-- ══ DESKTOP INFO STRIP (sejajar dengan konten, ≥768px) ══════════
-     TrackOrders | Nama Bisnis | Tanggal | Dark Mode — pas di atas cards
-══════════════════════════════════════════════════════════════════ -->
-<div class="dash-strip" id="dash-strip">
-  <div class="ds-identity">
-    <div class="ds-icon">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-      </svg>
-    </div>
-    <div class="ds-txt">
-      <div class="ds-app">TrackOrders</div>
-      <span class="ds-biz" id="ds-biz-name">Pencatatan Order Universal</span>
-    </div>
-  </div>
-  <div class="ds-right">
-    <div class="ds-date">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-      <span id="ds-date">—</span>
-    </div>
-    <button class="ico-btn" onclick="toggleTheme()" title="Toggle tema" style="width:30px;height:30px">
-      <svg id="ds-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-      <svg id="ds-moon" style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-    </button>
-  </div>
-</div>
 
 <!-- ══ PAGES ═══════════════════════════════════════════════════════ -->
 <div class="wrap">
@@ -1233,14 +1176,11 @@ function applyTheme(t) {
   localStorage.setItem('to_theme', t);
   var isDark = t === 'dark';
   // Mobile header icons
-  document.getElementById('ico-sun').style.display  = isDark  ? '' : 'none';
-  document.getElementById('ico-moon').style.display = isDark  ? 'none' : '';
+  var mSun=document.getElementById('ico-sun'); var mMoon=document.getElementById('ico-moon');
+  if(mSun){ mSun.style.display=isDark?'':'none'; mMoon.style.display=isDark?'none':''; }
   // Desktop top-nav icons
-  var tnSun = document.getElementById('tn-sun'); var tnMoon = document.getElementById('tn-moon');
-  if(tnSun){ tnSun.style.display = isDark ? '' : 'none'; tnMoon.style.display = isDark ? 'none' : ''; }
-  // Desktop strip icons
-  var dsSun = document.getElementById('ds-sun'); var dsMoon = document.getElementById('ds-moon');
-  if(dsSun){ dsSun.style.display = isDark ? '' : 'none'; dsMoon.style.display = isDark ? 'none' : ''; }
+  var tnSun=document.getElementById('tn-sun'); var tnMoon=document.getElementById('tn-moon');
+  if(tnSun){ tnSun.style.display=isDark?'':'none'; tnMoon.style.display=isDark?'none':''; }
   var tgl = document.getElementById('theme-toggle');
   if (tgl) tgl.checked = isDark;
   if (chart7) drawChart();
@@ -1255,18 +1195,9 @@ applyTheme(curTheme);
 ───────────────────────────────────────── */
 function refreshHdrBiz() {
   var biz = getActiveBiz();
-  var txt;
-  if (biz) {
-    txt = (biz.emoji ? biz.emoji + ' ' : '') + biz.name;
-  } else {
-    txt = 'Pencatatan Order Universal';
-  }
-  var el = document.getElementById('hdr-biz-name');
-  if(el) el.textContent = txt;
-  var tn = document.getElementById('tn-biz-name');
-  if(tn) tn.textContent = txt;
-  var ds = document.getElementById('ds-biz-name');
-  if(ds) ds.textContent = txt;
+  var txt = biz ? (biz.emoji ? biz.emoji+' ' : '')+biz.name : 'Pencatatan Order Universal';
+  var el=document.getElementById('hdr-biz-name'); if(el) el.textContent=txt;
+  var tn=document.getElementById('tn-biz-name'); if(tn) tn.textContent=txt;
 }
 
 /* ─────────────────────────────────────────
@@ -1681,6 +1612,9 @@ function doRekap() {
         '<button class="btn btn-ghost btn-xs" onclick="editOrderStatus(\''+o.id+'\')" title="Ubah status">'+
           '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:11px;height:11px"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>'+
         '</button>'+
+        '<button class="btn btn-info btn-xs" onclick="cetakNota(\''+o.id+'\')" title="Cetak Nota">'+
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:11px;height:11px"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>'+
+        '</button>'+
         '<button class="btn btn-danger btn-xs" onclick="hapusOrder(\''+o.id+'\')">'+
           '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M9 6V4h6v2"/></svg>'+
         '</button>'+
@@ -1707,6 +1641,73 @@ function hapusOrder(id) {
     save(); doRekap(); refreshDash();
     toast('Order dihapus', 's');
   }, '🗑️ Hapus Order');
+}
+
+/* ─────────────────────────────────────────
+   CETAK NOTA PER ORDER
+───────────────────────────────────────── */
+function cetakNota(id) {
+  var o = orders.find(function(x){ return x.id === id; });
+  if (!o) return;
+  var biz = getActiveBiz();
+  var bizNm = biz ? (biz.emoji?biz.emoji+' ':'')+biz.name : 'TrackOrders';
+  var payLbl = o.payStatus==='paid'?'✅ Lunas':o.payStatus==='dp'?'🔶 DP / Uang Muka':'❌ Belum Lunas';
+
+  var itemRows = o.items.map(function(it,i){
+    return '<tr style="border-bottom:1px solid #eee">'+
+      '<td style="padding:7px 10px;font-size:.82rem">'+(i+1)+'</td>'+
+      '<td style="padding:7px 10px;font-size:.82rem;font-weight:600">'+esc(it.name)+'</td>'+
+      '<td style="padding:7px 10px;font-size:.82rem;text-align:center">'+it.qty+'</td>'+
+      '<td style="padding:7px 10px;font-size:.82rem;text-align:right">Rp '+it.price.toLocaleString('id-ID')+'</td>'+
+      '<td style="padding:7px 10px;font-size:.82rem;text-align:right;font-weight:700">Rp '+it.subtotal.toLocaleString('id-ID')+'</td>'+
+    '</tr>';
+  }).join('');
+
+  var discRow = o.discount>0 ? '<tr><td colspan="4" style="padding:5px 10px;font-size:.78rem;color:#c93838">Diskon</td><td style="padding:5px 10px;font-size:.78rem;text-align:right;color:#c93838">- Rp '+(o.discount||0).toLocaleString('id-ID')+'</td></tr>' : '';
+  var extraRow = o.extraFee>0 ? '<tr><td colspan="4" style="padding:5px 10px;font-size:.78rem;color:#555">Biaya Tambahan</td><td style="padding:5px 10px;font-size:.78rem;text-align:right;color:#555">Rp '+(o.extraFee||0).toLocaleString('id-ID')+'</td></tr>' : '';
+
+  var html = '<!DOCTYPE html><html><head><meta charset="UTF-8">'+
+    '<title>Nota — '+esc(o.customer||'Umum')+'</title>'+
+    '<style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:sans-serif;background:#fff;color:#222;padding:24px;max-width:400px;margin:0 auto}'+
+    '@media print{body{padding:0;max-width:100%}#print-btn{display:none}}</style>'+
+    '</head><body>'+
+    '<div style="text-align:center;margin-bottom:16px;padding-bottom:14px;border-bottom:2px solid #e8b84b">'+
+      '<div style="font-size:1.1rem;font-weight:800;color:#c9973a">'+esc(bizNm)+'</div>'+
+      (biz&&biz.addr?'<div style="font-size:.7rem;color:#888;margin-top:3px">'+esc(biz.addr)+'</div>':'')+
+      (biz&&biz.phone?'<div style="font-size:.7rem;color:#888">'+esc(biz.phone)+'</div>':'')+
+    '</div>'+
+    '<div style="display:flex;justify-content:space-between;margin-bottom:14px;font-size:.75rem;color:#666">'+
+      '<div><div style="font-weight:700;color:#333">Pelanggan</div><div>'+esc(o.customer||'Umum')+'</div>'+(o.phone?'<div>'+esc(o.phone)+'</div>':'')+' </div>'+
+      '<div style="text-align:right"><div style="font-weight:700;color:#333">Tanggal</div><div>'+fmtD(o.date)+'</div></div>'+
+    '</div>'+
+    '<table style="width:100%;border-collapse:collapse;margin-bottom:12px">'+
+      '<thead><tr style="background:#f8f4ec;border-bottom:2px solid #e8b84b">'+
+        '<th style="padding:7px 10px;font-size:.7rem;text-align:left">#</th>'+
+        '<th style="padding:7px 10px;font-size:.7rem;text-align:left">Item</th>'+
+        '<th style="padding:7px 10px;font-size:.7rem;text-align:center">Qty</th>'+
+        '<th style="padding:7px 10px;font-size:.7rem;text-align:right">Harga</th>'+
+        '<th style="padding:7px 10px;font-size:.7rem;text-align:right">Subtotal</th>'+
+      '</tr></thead>'+
+      '<tbody>'+itemRows+discRow+extraRow+'</tbody>'+
+    '</table>'+
+    '<div style="text-align:right;padding:10px;background:#f8f4ec;border-radius:8px;margin-bottom:12px">'+
+      '<div style="font-size:.72rem;color:#888">Total Pembayaran</div>'+
+      '<div style="font-size:1.3rem;font-weight:800;color:#c9973a">Rp '+o.total.toLocaleString('id-ID')+'</div>'+
+    '</div>'+
+    (o.note?'<div style="font-size:.75rem;color:#666;margin-bottom:10px;padding:8px;background:#fffbf2;border:1px solid #f0e0b0;border-radius:6px">📝 '+esc(o.note)+'</div>':'')+
+    '<div style="text-align:center;font-size:.75rem;color:#aaa;margin-bottom:14px">'+payLbl+'</div>'+
+    '<div style="text-align:center;font-size:.7rem;color:#bbb;border-top:1px solid #eee;padding-top:10px">'+
+      'Terima kasih atas kepercayaan Anda 🙏<br>'+esc(bizNm)+
+    '</div>'+
+    '<div style="text-align:center;margin-top:16px" id="print-btn">'+
+      '<button onclick="window.print()" style="background:#c9973a;color:#fff;border:none;padding:10px 28px;border-radius:8px;font-size:.85rem;font-weight:700;cursor:pointer">🖨 Cetak Nota</button>'+
+    '</div>'+
+    '<script>window.onload=function(){window.print()}<\/script>'+
+    '</body></html>';
+
+  var w = window.open('','_blank','width=440,height=700,scrollbars=yes');
+  if(w){ w.document.write(html); w.document.close(); }
+  else { toast('Popup diblokir browser. Izinkan popup untuk cetak nota.','e'); }
 }
 
 function confirmHapusSemua() {
@@ -2238,13 +2239,9 @@ document.querySelectorAll('.modal-bg').forEach(function(mb){
 /* ─────────────────────────────────────────
    INIT
 ───────────────────────────────────────── */
-document.getElementById('hdr-date').textContent =
-  new Date().toLocaleDateString('id-ID',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
-
-// Populate desktop elements too
 var dateStr = new Date().toLocaleDateString('id-ID',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
-var tnDate = document.getElementById('tn-date'); if(tnDate) tnDate.textContent = dateStr;
-var dsDate = document.getElementById('ds-date'); if(dsDate) dsDate.textContent = dateStr;
+var hdrDate=document.getElementById('hdr-date'); if(hdrDate) hdrDate.textContent=dateStr;
+var tnDate=document.getElementById('tn-date'); if(tnDate) tnDate.textContent=dateStr;
 
 refreshHdrBiz();
 refreshDash();
