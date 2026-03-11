@@ -35,21 +35,30 @@
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);
   min-height:100vh;overflow-x:hidden;
-  padding-bottom:calc(70px + env(safe-area-inset-bottom) + 10px);
   transition:background .3s,color .3s}
+/* Mobile: pad for bottom nav */
+@media(max-width:767px){
+  body{padding-bottom:calc(70px + env(safe-area-inset-bottom) + 10px)}
+}
+/* Desktop: pad for top nav */
+@media(min-width:768px){
+  body{padding-top:0}
+}
 ::-webkit-scrollbar{width:4px;height:4px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--s3);border-radius:4px}
 button,input,select,textarea{font-family:inherit;color:inherit}
 input[type=number]::-webkit-inner-spin-button{opacity:.5}
 
-/* ══ HEADER ══════════════════════════════════════════════════════════ */
+/* ══ MOBILE HEADER (hidden on desktop) ════════════════════════════ */
 .hdr{position:sticky;top:0;z-index:200;
   background:var(--hbg);backdrop-filter:blur(24px) saturate(180%);
   -webkit-backdrop-filter:blur(24px) saturate(180%);
   border-bottom:1px solid var(--bd3);
   display:flex;align-items:center;justify-content:space-between;padding:0 15px;
   transition:background .3s;min-height:56px;flex-wrap:nowrap}
+@media(min-width:768px){.hdr{display:none}}
+
 .logo{display:flex;align-items:center;gap:9px;min-width:0}
 .logo-icon{width:33px;height:33px;border-radius:9px;flex-shrink:0;
   background:linear-gradient(135deg,var(--gl),var(--gdk));
@@ -72,6 +81,111 @@ input[type=number]::-webkit-inner-spin-button{opacity:.5}
   display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0}
 .ico-btn:hover{border-color:var(--gd);color:var(--gl)}
 .ico-btn svg{width:15px;height:15px}
+
+/* ══ DESKTOP TOP NAV ════════════════════════════════════════════════
+   Full navigation bar for ≥768px screens — hidden on mobile
+══════════════════════════════════════════════════════════════════════ */
+.top-nav{
+  display:none; /* hidden on mobile */
+  position:sticky;top:0;z-index:300;
+  background:var(--hbg);backdrop-filter:blur(24px) saturate(180%);
+  -webkit-backdrop-filter:blur(24px) saturate(180%);
+  border-bottom:1px solid var(--bd3);
+  transition:background .3s;
+}
+@media(min-width:768px){.top-nav{display:block}}
+
+/* Inner container aligns with .wrap max-width */
+.top-nav-inner{
+  max-width:860px;margin:0 auto;
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  align-items:center;
+  gap:0;
+  padding:0 13px;
+  min-height:60px;
+}
+
+/* Logo (left column) */
+.tn-logo{display:flex;align-items:center;gap:9px;flex-shrink:0;margin-right:16px}
+.tn-logo-icon{width:34px;height:34px;border-radius:10px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--gl),var(--gdk));
+  display:flex;align-items:center;justify-content:center;box-shadow:var(--shg)}
+.tn-logo-icon svg{width:17px;height:17px;color:#fff}
+.tn-logo-txt{line-height:1.2}
+.tn-logo-name{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:800;
+  color:var(--gl);letter-spacing:.3px;display:block}
+.tn-logo-biz{font-size:.6rem;color:var(--gd);font-weight:600;display:block;
+  max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:1px}
+
+/* Nav links (center column — scrollable if needed) */
+.tn-links{
+  display:flex;align-items:center;gap:2px;
+  justify-content:center;
+  overflow-x:auto;scrollbar-width:none;
+  padding:0 8px;
+}
+.tn-links::-webkit-scrollbar{display:none}
+.tn-btn{
+  display:flex;align-items:center;gap:5px;
+  padding:7px 13px;border-radius:8px;border:none;
+  background:transparent;cursor:pointer;
+  font-size:.78rem;font-weight:600;color:var(--t3);
+  transition:all .18s;white-space:nowrap;position:relative;
+  font-family:inherit;
+}
+.tn-btn svg{width:14px;height:14px;flex-shrink:0}
+.tn-btn:hover{background:var(--s2);color:var(--t2)}
+.tn-btn.active{background:rgba(201,151,58,.1);color:var(--gl)}
+[data-theme="light"] .tn-btn.active{background:rgba(180,120,20,.08);color:var(--gdk)}
+.tn-btn.active::after{
+  content:'';position:absolute;bottom:-1px;left:50%;
+  transform:translateX(-50%);
+  width:22px;height:2px;border-radius:1px;background:var(--gl)
+}
+/* "Catat Order" highlight button */
+.tn-btn.tn-order{
+  background:linear-gradient(135deg,var(--gl),var(--gdk));
+  color:#150e00;box-shadow:0 2px 12px rgba(201,151,58,.3);
+  font-weight:700;padding:7px 15px;
+}
+.tn-btn.tn-order:hover{filter:brightness(1.07);transform:translateY(-1px)}
+.tn-btn.tn-order.active{background:linear-gradient(135deg,var(--gl),var(--gdk));color:#150e00}
+.tn-btn.tn-order.active::after{display:none}
+
+/* Right controls (right column) */
+.tn-right{display:flex;align-items:center;gap:7px;flex-shrink:0;margin-left:16px}
+.tn-date{display:flex;align-items:center;gap:5px;
+  background:var(--s2);border:1px solid var(--bd2);
+  border-radius:7px;padding:5px 10px;
+  font-size:.65rem;color:var(--t2);white-space:nowrap}
+.tn-date svg{width:11px;height:11px;flex-shrink:0}
+
+/* Dashboard header strip — shown on desktop aligned with content */
+.dash-strip{
+  display:none;
+}
+@media(min-width:768px){
+  .dash-strip{
+    display:flex;align-items:center;justify-content:space-between;
+    max-width:860px;margin:0 auto;
+    padding:16px 13px 0;
+    gap:12px;flex-wrap:wrap;
+  }
+}
+.ds-identity{display:flex;align-items:center;gap:10px}
+.ds-icon{width:36px;height:36px;border-radius:10px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--gl),var(--gdk));
+  display:flex;align-items:center;justify-content:center;box-shadow:var(--shg)}
+.ds-icon svg{width:17px;height:17px;color:#fff}
+.ds-txt{line-height:1.25}
+.ds-app{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:800;color:var(--gl)}
+.ds-biz{font-size:.65rem;color:var(--gd);font-weight:600;display:block;margin-top:1px}
+.ds-right{display:flex;align-items:center;gap:8px}
+.ds-date{display:flex;align-items:center;gap:5px;
+  background:var(--s1);border:1px solid var(--bd2);
+  border-radius:8px;padding:6px 11px;font-size:.67rem;color:var(--t2)}
+.ds-date svg{width:11px;height:11px;flex-shrink:0}
 
 /* ══ LAYOUT ══════════════════════════════════════════════════════════ */
 .wrap{max-width:860px;margin:0 auto;padding:16px 13px 4px}
@@ -360,6 +474,8 @@ table.dtbl{width:100%;border-collapse:collapse;min-width:420px}
   border-top:1px solid var(--bd3);
   display:flex;align-items:stretch;z-index:300;
   padding-bottom:env(safe-area-inset-bottom)}
+/* Hide bottom nav on desktop */
+@media(min-width:768px){.bot-nav{display:none}}
 .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;
   justify-content:center;gap:3px;cursor:pointer;background:transparent;
   border:none;padding:7px 3px;margin:4px 2px;border-radius:11px;
@@ -402,7 +518,63 @@ table.dtbl{width:100%;border-collapse:collapse;min-width:420px}
 </head>
 <body>
 
-<!-- ══ HEADER ═════════════════════════════════════════════════════ -->
+<!-- ══ DESKTOP TOP NAV (≥768px) ════════════════════════════════════ -->
+<nav class="top-nav">
+  <div class="top-nav-inner">
+    <!-- Logo -->
+    <div class="tn-logo">
+      <div class="tn-logo-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+        </svg>
+      </div>
+      <div class="tn-logo-txt">
+        <span class="tn-logo-name">TrackOrders</span>
+        <span class="tn-logo-biz" id="tn-biz-name">Pencatatan Order Universal</span>
+      </div>
+    </div>
+    <!-- Nav links (center) -->
+    <div class="tn-links">
+      <button class="tn-btn active" id="tn-db" onclick="goPage('dashboard',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+        Beranda
+      </button>
+      <button class="tn-btn" id="tn-rk" onclick="goPage('rekap',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+        Rekap
+      </button>
+      <button class="tn-btn tn-order" id="tn-or" onclick="goPage('order',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Catat Order
+      </button>
+      <button class="tn-btn" id="tn-pr" onclick="goPage('produk',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+        Produk
+      </button>
+      <button class="tn-btn" id="tn-lp" onclick="goPage('laporan',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Laporan
+      </button>
+      <button class="tn-btn" id="tn-st" onclick="goPage('setting',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        Setting
+      </button>
+    </div>
+    <!-- Right: date + theme -->
+    <div class="tn-right">
+      <div class="tn-date">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span id="tn-date">—</span>
+      </div>
+      <button class="ico-btn" onclick="toggleTheme()" title="Toggle tema">
+        <svg id="tn-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg id="tn-moon" style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ══ MOBILE HEADER (<768px) ═══════════════════════════════════════ -->
 <header class="hdr">
   <div class="logo">
     <div class="logo-icon">
@@ -426,6 +598,33 @@ table.dtbl{width:100%;border-collapse:collapse;min-width:420px}
     </button>
   </div>
 </header>
+
+<!-- ══ DESKTOP INFO STRIP (sejajar dengan konten, ≥768px) ══════════
+     TrackOrders | Nama Bisnis | Tanggal | Dark Mode — pas di atas cards
+══════════════════════════════════════════════════════════════════ -->
+<div class="dash-strip" id="dash-strip">
+  <div class="ds-identity">
+    <div class="ds-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+      </svg>
+    </div>
+    <div class="ds-txt">
+      <div class="ds-app">TrackOrders</div>
+      <span class="ds-biz" id="ds-biz-name">Pencatatan Order Universal</span>
+    </div>
+  </div>
+  <div class="ds-right">
+    <div class="ds-date">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      <span id="ds-date">—</span>
+    </div>
+    <button class="ico-btn" onclick="toggleTheme()" title="Toggle tema" style="width:30px;height:30px">
+      <svg id="ds-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      <svg id="ds-moon" style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+  </div>
+</div>
 
 <!-- ══ PAGES ═══════════════════════════════════════════════════════ -->
 <div class="wrap">
@@ -1033,8 +1232,15 @@ function applyTheme(t) {
   document.documentElement.setAttribute('data-theme', t);
   localStorage.setItem('to_theme', t);
   var isDark = t === 'dark';
+  // Mobile header icons
   document.getElementById('ico-sun').style.display  = isDark  ? '' : 'none';
   document.getElementById('ico-moon').style.display = isDark  ? 'none' : '';
+  // Desktop top-nav icons
+  var tnSun = document.getElementById('tn-sun'); var tnMoon = document.getElementById('tn-moon');
+  if(tnSun){ tnSun.style.display = isDark ? '' : 'none'; tnMoon.style.display = isDark ? 'none' : ''; }
+  // Desktop strip icons
+  var dsSun = document.getElementById('ds-sun'); var dsMoon = document.getElementById('ds-moon');
+  if(dsSun){ dsSun.style.display = isDark ? '' : 'none'; dsMoon.style.display = isDark ? 'none' : ''; }
   var tgl = document.getElementById('theme-toggle');
   if (tgl) tgl.checked = isDark;
   if (chart7) drawChart();
@@ -1049,24 +1255,45 @@ applyTheme(curTheme);
 ───────────────────────────────────────── */
 function refreshHdrBiz() {
   var biz = getActiveBiz();
-  var el  = document.getElementById('hdr-biz-name');
+  var txt;
   if (biz) {
-    el.textContent = (biz.emoji ? biz.emoji+' ' : '') + biz.name;
-    el.style.display = '';
+    txt = (biz.emoji ? biz.emoji + ' ' : '') + biz.name;
   } else {
-    el.textContent = 'Pencatatan Order Universal';
-    el.style.display = '';
+    txt = 'Pencatatan Order Universal';
   }
+  var el = document.getElementById('hdr-biz-name');
+  if(el) el.textContent = txt;
+  var tn = document.getElementById('tn-biz-name');
+  if(tn) tn.textContent = txt;
+  var ds = document.getElementById('ds-biz-name');
+  if(ds) ds.textContent = txt;
 }
 
 /* ─────────────────────────────────────────
    NAVIGATION
 ───────────────────────────────────────── */
+/* page → {mobile-btn-id, desktop-btn-id} */
+var NAV_MAP = {
+  'dashboard': {mob:'ni-db',  desk:'tn-db'},
+  'rekap':     {mob:'ni-rk',  desk:'tn-rk'},
+  'order':     {mob:'ni-or',  desk:'tn-or'},
+  'produk':    {mob:'ni-pr',  desk:'tn-pr'},
+  'laporan':   {mob:null,     desk:'tn-lp'},
+  'setting':   {mob:'ni-st',  desk:'tn-st'},
+};
+
 function goPage(name, btn) {
   document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
-  document.querySelectorAll('.nav-item').forEach(function(n){ n.classList.remove('active'); });
+  // Deactivate all nav buttons (both mobile and desktop)
+  document.querySelectorAll('.nav-item, .tn-btn').forEach(function(n){ n.classList.remove('active'); });
+
   document.getElementById('pg-'+name).classList.add('active');
-  if (btn) btn.classList.add('active');
+
+  // Activate matching buttons in both navs
+  var ids = NAV_MAP[name] || {};
+  if(ids.mob){ var mb=document.getElementById(ids.mob); if(mb) mb.classList.add('active'); }
+  if(ids.desk){ var db=document.getElementById(ids.desk); if(db) db.classList.add('active'); }
+
   if (name === 'dashboard') refreshDash();
   if (name === 'rekap')     doRekap();
   if (name === 'order')     initForm();
@@ -1386,7 +1613,7 @@ function saveOrder() {
   save();
   toast('Order berhasil disimpan! 🎉', 's');
   resetForm();
-  goPage('dashboard', document.getElementById('ni-db'));
+  goPage('dashboard', null);
 }
 
 function resetForm() {
@@ -2013,6 +2240,11 @@ document.querySelectorAll('.modal-bg').forEach(function(mb){
 ───────────────────────────────────────── */
 document.getElementById('hdr-date').textContent =
   new Date().toLocaleDateString('id-ID',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+
+// Populate desktop elements too
+var dateStr = new Date().toLocaleDateString('id-ID',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+var tnDate = document.getElementById('tn-date'); if(tnDate) tnDate.textContent = dateStr;
+var dsDate = document.getElementById('ds-date'); if(dsDate) dsDate.textContent = dateStr;
 
 refreshHdrBiz();
 refreshDash();
