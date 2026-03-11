@@ -130,35 +130,29 @@ input[type=number]::-webkit-inner-spin-button{opacity:.5}
 .tn-btn.tn-order.active{background:linear-gradient(135deg,var(--gl),var(--gdk));color:#150e00}
 .tn-btn.tn-order.active::after{display:none}
 
-/* ── RIGHT CONTROLS */
+/* ── RIGHT CONTROLS — date only */
 .tn-right{
-  display:flex;align-items:center;gap:7px;
+  display:flex;align-items:center;
   padding-left:10px;
   flex-shrink:0;
 }
 .tn-date{
-  display:flex;align-items:center;gap:4px;
+  display:flex;align-items:center;gap:5px;
   background:var(--s2);border:1px solid var(--bd2);
-  border-radius:7px;padding:5px 10px;
-  font-size:.62rem;color:var(--t2);white-space:nowrap;
+  border-radius:7px;padding:5px 11px;
+  font-size:.65rem;color:var(--t2);white-space:nowrap;font-weight:500;
 }
-.tn-date svg{width:10px;height:10px;flex-shrink:0}
-.ico-btn{width:32px;height:32px;border-radius:8px;background:var(--s2);
-  border:1px solid var(--bd2);color:var(--t2);cursor:pointer;
-  display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0}
-.ico-btn:hover{border-color:var(--gd);color:var(--gl)}
-.ico-btn svg{width:15px;height:15px}
-/* Responsive: hide some items on medium screens */
+.tn-date svg{width:11px;height:11px;flex-shrink:0;color:var(--gd)}
+/* Responsive: hide date on small desktops */
 @media(min-width:768px) and (max-width:1060px){
   .tn-btn svg{display:none}
   .tn-btn.tn-order svg{display:inline-flex!important}
   .tn-btn{padding:6px 7px;font-size:.7rem}
   .tn-logo-biz{display:none}
-  .tn-date{display:none}
 }
-@media(min-width:768px) and (max-width:860px){
+@media(min-width:768px) and (max-width:880px){
   .tn-btn{font-size:.67rem;padding:5px 6px}
-  .tn-right{gap:5px;padding-left:6px}
+  .tn-date{display:none}
 }
 
 /* ══ MOBILE HEADER ════════════════════════════════════════════════ */
@@ -182,9 +176,9 @@ input[type=number]::-webkit-inner-spin-button{opacity:.5}
 .hdr-right{display:flex;align-items:center;gap:6px;flex-shrink:0}
 .hdr-date{display:flex;align-items:center;gap:5px;
   background:var(--s2);border:1px solid var(--bd2);
-  border-radius:7px;padding:5px 9px;font-size:.65rem;color:var(--t2)}
-.hdr-date svg{width:11px;height:11px;flex-shrink:0}
-@media(max-width:400px){.hdr-date{display:none}}
+  border-radius:7px;padding:5px 10px;font-size:.65rem;color:var(--t2);font-weight:500}
+.hdr-date svg{width:11px;height:11px;flex-shrink:0;color:var(--gd)}
+@media(max-width:360px){.hdr-date{display:none}}
 
 /* ══ LAYOUT ══════════════════════════════════════════════════════════ */
 .wrap{max-width:860px;margin:0 auto;padding:16px 13px 4px}
@@ -201,6 +195,17 @@ input[type=number]::-webkit-inner-spin-button{opacity:.5}
   background:linear-gradient(135deg,var(--gd),var(--gdk));
   display:flex;align-items:center;justify-content:center;box-shadow:var(--shg)}
 .pg-ttl .ic svg{width:14px;height:14px;color:#fff}
+.pg-ttl-right{margin-left:auto;display:flex;align-items:center;gap:6px}
+.pg-ico-btn{width:32px;height:32px;border-radius:8px;
+  background:var(--s2);border:1px solid var(--bd2);
+  color:var(--t2);cursor:pointer;display:flex;align-items:center;
+  justify-content:center;transition:all .2s;flex-shrink:0;position:relative}
+.pg-ico-btn:hover{border-color:var(--gd);color:var(--gl)}
+.pg-ico-btn svg{width:15px;height:15px}
+.pg-notif-badge{position:absolute;top:-3px;right:-3px;width:14px;height:14px;
+  border-radius:50%;background:var(--red);color:#fff;font-size:.48rem;font-weight:800;
+  display:none;align-items:center;justify-content:center;border:2px solid var(--bg)}
+.pg-notif-badge.show{display:flex}
 
 /* ══ STAT GRID ══════════════════════════════════════════════════════ */
 .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px}
@@ -517,16 +522,6 @@ table.dtbl{width:100%;border-collapse:collapse;min-width:420px}
 .shift-stat .sl{font-size:.56rem;color:var(--t3);text-transform:uppercase;letter-spacing:.5px}
 .shift-acts{display:flex;gap:6px}
 
-/* ══ NOTIFICATION BELL (NEW) ══════════════════════════════════════ */
-.notif-btn{position:relative}
-.notif-badge{position:absolute;top:-3px;right:-3px;
-  width:15px;height:15px;border-radius:50%;
-  background:var(--red);color:#fff;
-  font-size:.5rem;font-weight:800;
-  display:flex;align-items:center;justify-content:center;
-  border:2px solid var(--hbg);
-  display:none}
-.notif-badge.show{display:flex}
 
 /* ══ LOW STOCK ALERT ══════════════════════════════════════════ */
 .alert-box{background:rgba(224,82,82,.07);border:1px solid rgba(224,82,82,.2);
@@ -616,20 +611,12 @@ table.dtbl{width:100%;border-collapse:collapse;min-width:420px}
         </button>
       </div>
 
-      <!-- RIGHT: Date + theme toggle -->
+      <!-- RIGHT: Date only -->
       <div class="tn-right">
         <div class="tn-date">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
           <span id="tn-date">—</span>
         </div>
-        <button class="ico-btn notif-btn" onclick="goPage('rekap',null)" title="Notifikasi stok rendah" id="notif-btn">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-          <div class="notif-badge" id="notif-badge">!</div>
-        </button>
-        <button class="ico-btn" onclick="toggleTheme()" title="Toggle tema">
-          <svg id="tn-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-          <svg id="tn-moon" style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-        </button>
       </div>
 
     </div>
@@ -654,10 +641,6 @@ table.dtbl{width:100%;border-collapse:collapse;min-width:420px}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
       <span id="hdr-date">—</span>
     </div>
-    <button class="ico-btn" onclick="toggleTheme()" title="Toggle tema">
-      <svg id="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-      <svg id="ico-moon" style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-    </button>
   </div>
 </header>
 
@@ -669,6 +652,16 @@ table.dtbl{width:100%;border-collapse:collapse;min-width:420px}
     <div class="pg-ttl">
       <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg></div>
       Dashboard
+      <div class="pg-ttl-right">
+        <button class="pg-ico-btn" onclick="goPage('rekap',null)" title="Notifikasi stok rendah" id="notif-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <div class="pg-notif-badge" id="notif-badge">!</div>
+        </button>
+        <button class="pg-ico-btn" onclick="toggleTheme()" title="Toggle tema" id="theme-btn-pg">
+          <svg id="pg-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg id="pg-moon" style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
     </div>
 
     <!-- Shift/Sesi Tracker -->
@@ -748,6 +741,16 @@ table.dtbl{width:100%;border-collapse:collapse;min-width:420px}
     <div class="pg-ttl">
       <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
       Catat Order Baru
+      <div class="pg-ttl-right">
+        <button class="pg-ico-btn" onclick="goPage('rekap',null)" title="Notifikasi stok rendah" id="notif-btn-or">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <div class="pg-notif-badge" id="notif-badge-or">!</div>
+        </button>
+        <button class="pg-ico-btn" onclick="toggleTheme()" title="Toggle tema">
+          <svg class="pg-sun-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="pg-moon-ic" style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
     </div>
 
     <!-- Quick Order from Products -->
@@ -881,6 +884,16 @@ table.dtbl{width:100%;border-collapse:collapse;min-width:420px}
     <div class="pg-ttl">
       <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></div>
       Rekap & Riwayat
+      <div class="pg-ttl-right">
+        <button class="pg-ico-btn" onclick="goPage('rekap',null)" title="Notifikasi stok rendah" id="notif-btn-rk">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <div class="pg-notif-badge" id="notif-badge-rk">!</div>
+        </button>
+        <button class="pg-ico-btn" onclick="toggleTheme()" title="Toggle tema">
+          <svg class="pg-sun-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="pg-moon-ic" style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
     </div>
     <div class="filter-bar">
       <input type="text" class="fi" id="fq" placeholder="🔍  Cari nama / produk..." oninput="rekPage=1;doRekap()" style="min-width:140px"/>
@@ -948,6 +961,16 @@ table.dtbl{width:100%;border-collapse:collapse;min-width:420px}
     <div class="pg-ttl">
       <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></div>
       Manajemen Produk / Layanan
+      <div class="pg-ttl-right">
+        <button class="pg-ico-btn" onclick="goPage('rekap',null)" title="Notifikasi stok rendah" id="notif-btn-pr">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <div class="pg-notif-badge" id="notif-badge-pr">!</div>
+        </button>
+        <button class="pg-ico-btn" onclick="toggleTheme()" title="Toggle tema">
+          <svg class="pg-sun-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="pg-moon-ic" style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
     </div>
     <div style="margin-bottom:12px">
       <input type="text" class="fi" id="prod-search" placeholder="🔍  Cari produk..." oninput="renderProds()"/>
@@ -1008,6 +1031,16 @@ table.dtbl{width:100%;border-collapse:collapse;min-width:420px}
     <div class="pg-ttl">
       <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
       Laporan & Ekspor
+      <div class="pg-ttl-right">
+        <button class="pg-ico-btn" onclick="goPage('rekap',null)" title="Notifikasi stok rendah" id="notif-btn-lp">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <div class="pg-notif-badge" id="notif-badge-lp">!</div>
+        </button>
+        <button class="pg-ico-btn" onclick="toggleTheme()" title="Toggle tema">
+          <svg class="pg-sun-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="pg-moon-ic" style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
     </div>
     <div class="card">
       <div class="card-ttl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Ringkasan</div>
@@ -1046,6 +1079,16 @@ table.dtbl{width:100%;border-collapse:collapse;min-width:420px}
     <div class="pg-ttl">
       <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
       Pengaturan
+      <div class="pg-ttl-right">
+        <button class="pg-ico-btn" onclick="goPage('rekap',null)" title="Notifikasi stok rendah" id="notif-btn-st">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <div class="pg-notif-badge" id="notif-badge-st">!</div>
+        </button>
+        <button class="pg-ico-btn" onclick="toggleTheme()" title="Toggle tema">
+          <svg class="pg-sun-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="pg-moon-ic" style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
     </div>
     <div class="set-section">
       <div class="set-header">
@@ -1255,10 +1298,12 @@ function applyTheme(t){
   document.documentElement.setAttribute('data-theme',t);
   localStorage.setItem('to_theme',t);
   var isDark=t==='dark';
-  var mSun=document.getElementById('ico-sun'),mMoon=document.getElementById('ico-moon');
-  if(mSun){mSun.style.display=isDark?'':'none';mMoon.style.display=isDark?'none':'';}
-  var tnSun=document.getElementById('tn-sun'),tnMoon=document.getElementById('tn-moon');
-  if(tnSun){tnSun.style.display=isDark?'':'none';tnMoon.style.display=isDark?'none':'';}
+  /* sync all sun/moon icons across pages */
+  document.querySelectorAll('.pg-sun-ic').forEach(function(el){el.style.display=isDark?'':'none';});
+  document.querySelectorAll('.pg-moon-ic').forEach(function(el){el.style.display=isDark?'none':'';});
+  /* dashboard first page icons (by id) */
+  var pgSun=document.getElementById('pg-sun'),pgMoon=document.getElementById('pg-moon');
+  if(pgSun){pgSun.style.display=isDark?'':'none';pgMoon.style.display=isDark?'none':'';}
   var tgl=document.getElementById('theme-toggle'); if(tgl) tgl.checked=isDark;
   if(chart7) drawChart();
 }
@@ -1274,17 +1319,18 @@ function getLowStockProds(){
 function renderLowStockAlert(){
   var el=document.getElementById('low-stock-alert');
   var ls=getLowStockProds();
-  var nb=document.getElementById('notif-badge');
+  /* update all notif badges across all pages */
+  var allBadges=document.querySelectorAll('.pg-notif-badge');
   if(ls.length){
-    if(nb) nb.classList.add('show');
-    el.innerHTML='<div class="alert-box">'+
+    allBadges.forEach(function(b){b.classList.add('show');});
+    if(el) el.innerHTML='<div class="alert-box">'+
       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>'+
       '<div><div class="ab-ttl">⚠️ Stok Rendah ('+ls.length+' produk)</div>'+
       '<div class="ab-sub">'+ls.slice(0,3).map(function(p){return esc(p.emoji||'📦')+' '+esc(p.name)+': <b style="color:var(--red)">'+p.stok+'</b>';}).join(' &nbsp;·&nbsp; ')+(ls.length>3?'&nbsp;+lagi...':'')+'</div></div>'+
     '</div>';
   } else {
-    if(nb) nb.classList.remove('show');
-    el.innerHTML='';
+    allBadges.forEach(function(b){b.classList.remove('show');});
+    if(el) el.innerHTML='';
   }
 }
 function saveLowStockThreshold(){
