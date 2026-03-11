@@ -96,63 +96,71 @@ input[type=number]::-webkit-inner-spin-button{opacity:.5}
 @media(min-width:768px){.top-nav{display:block}}
 
 .top-nav-inner{
-  max-width:860px;margin:0 auto;
   display:flex;align-items:center;
-  padding:0 13px;height:58px;gap:0;
+  padding:0 24px;height:56px;gap:0;
+  width:100%;
 }
 
 /* Logo (fixed left) */
-.tn-logo{display:flex;align-items:center;gap:9px;flex-shrink:0;margin-right:20px;min-width:0}
-.tn-logo-icon{width:32px;height:32px;border-radius:9px;flex-shrink:0;
+.tn-logo{display:flex;align-items:center;gap:8px;flex-shrink:0;margin-right:16px}
+.tn-logo-icon{width:30px;height:30px;border-radius:8px;flex-shrink:0;
   background:linear-gradient(135deg,var(--gl),var(--gdk));
   display:flex;align-items:center;justify-content:center;box-shadow:var(--shg)}
-.tn-logo-icon svg{width:16px;height:16px;color:#fff}
+.tn-logo-icon svg{width:15px;height:15px;color:#fff}
 .tn-logo-txt{line-height:1.2;min-width:0}
-.tn-logo-name{font-family:'Playfair Display',serif;font-size:.98rem;font-weight:800;
+.tn-logo-name{font-family:'Playfair Display',serif;font-size:.92rem;font-weight:800;
   color:var(--gl);letter-spacing:.3px;display:block;white-space:nowrap}
-.tn-logo-biz{font-size:.58rem;color:var(--gd);font-weight:600;display:block;
-  max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:1px}
+.tn-logo-biz{font-size:.56rem;color:var(--gd);font-weight:600;display:block;
+  max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:1px}
 
-/* Nav links (flex-grow center) */
+/* Nav links — center, no overflow hidden, items never shrink below their text */
 .tn-links{
-  display:flex;align-items:center;gap:1px;
+  display:flex;align-items:center;gap:2px;
   flex:1;justify-content:center;
-  overflow:hidden;
+  min-width:0;
 }
 .tn-btn{
-  display:flex;align-items:center;gap:5px;
-  padding:6px 11px;border-radius:8px;border:none;
+  display:flex;align-items:center;gap:4px;
+  padding:6px 10px;border-radius:7px;border:none;
   background:transparent;cursor:pointer;
-  font-size:.76rem;font-weight:600;color:var(--t3);
+  font-size:.74rem;font-weight:600;color:var(--t3);
   transition:all .18s;white-space:nowrap;position:relative;
   font-family:inherit;flex-shrink:0;
 }
 .tn-btn svg{width:13px;height:13px;flex-shrink:0}
+/* Hide icons on medium screens to save space, show only text */
+@media(min-width:768px) and (max-width:1059px){
+  .tn-btn svg{display:none}
+  .tn-btn{padding:6px 9px;font-size:.72rem}
+}
 .tn-btn:hover{background:var(--s2);color:var(--t2)}
 .tn-btn.active{background:rgba(201,151,58,.1);color:var(--gl)}
 [data-theme="light"] .tn-btn.active{background:rgba(180,120,20,.08);color:var(--gdk)}
 .tn-btn.active::after{
   content:'';position:absolute;bottom:-1px;left:50%;
   transform:translateX(-50%);
-  width:20px;height:2px;border-radius:1px;background:var(--gl)
+  width:18px;height:2px;border-radius:1px;background:var(--gl)
 }
-/* "Catat Order" CTA button */
+/* "Catat Order" CTA button — always show icon */
 .tn-btn.tn-order{
   background:linear-gradient(135deg,var(--gl),var(--gdk));
-  color:#150e00;box-shadow:0 2px 10px rgba(201,151,58,.3);
-  font-weight:700;padding:6px 13px;margin:0 4px;
+  color:#150e00;box-shadow:0 2px 10px rgba(201,151,58,.25);
+  font-weight:700;padding:6px 12px;margin:0 3px;
 }
-.tn-btn.tn-order:hover{filter:brightness(1.07);transform:translateY(-1px);box-shadow:var(--shg)}
+.tn-btn.tn-order svg{display:flex!important}
+.tn-btn.tn-order:hover{filter:brightness(1.07);transform:translateY(-1px)}
 .tn-btn.tn-order.active{background:linear-gradient(135deg,var(--gl),var(--gdk));color:#150e00}
 .tn-btn.tn-order.active::after{display:none}
 
 /* Right controls (fixed right) */
-.tn-right{display:flex;align-items:center;gap:6px;flex-shrink:0;margin-left:20px}
-.tn-date{display:flex;align-items:center;gap:5px;
+.tn-right{display:flex;align-items:center;gap:6px;flex-shrink:0;margin-left:16px}
+.tn-date{display:flex;align-items:center;gap:4px;
   background:var(--s2);border:1px solid var(--bd2);
   border-radius:7px;padding:5px 9px;
-  font-size:.63rem;color:var(--t2);white-space:nowrap}
+  font-size:.62rem;color:var(--t2);white-space:nowrap}
 .tn-date svg{width:10px;height:10px;flex-shrink:0}
+/* Hide date label on smaller desktop to save space */
+@media(min-width:768px) and (max-width:900px){.tn-date{display:none}}
 
 /* Dashboard header strip — REMOVED (was causing duplicate TrackOrders display) */
 
